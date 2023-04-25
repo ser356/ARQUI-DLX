@@ -17,7 +17,7 @@ mediaV: .float 0.0
 .global main
 main:
 
-
+    ;COMENTARIO PARA TOMAS !!!HAY QUE TERMINAR EN EL MAIN LO DE CALCULAR LOS CINCO PRIMEROS VALORES!!!!
     lf      f0,         valor_inicial           ; f0=5.0
     lw      r8,         tamanho                 ; r8=30 pero se puede utilizar cualquier valor en rango de 10 a 30
     addi    r9,         r0,             0       ; inicializamos el puntero de posicion del vector
