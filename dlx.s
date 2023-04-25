@@ -4,13 +4,10 @@
 ;#####  #####  #    #   #   #    #   #   #    #   #   # #####  #    #    #    # #        ##   
 ;#      #   #  #    #   #   #    #   #   #    #   #   # #      #    #    #    # #       #  #  
 ;#      #    #  ####    #    ####    #    ####    #   # #       ####     #####  ###### #    # 
-;
-; CODIGO NO OPTIMIZADO
-; variables de entrada: no modificar
+;      
 .data
 valor_inicial: .float 5
 tamanho: .word 30
-                                                            ; variables de salida: no modificar orden (todas formato float)
 vector: .space 120
 suma: .float 0
 m: .float 0.0, 0.0, 0.0, 0.0
@@ -101,15 +98,21 @@ mediaAsociada:
     divf    f28,                    f27,            f16
     sf      mediav,                 f28
     j       fin
+
+
 saveMatriz:
     sf      m,                      f6                      ; guardamos el primer elemento de la matriz en memoria
     sf      m+4,                    f7                      ; guardamos el segundo elemento de la matriz en memoria
     sf      m+8,                    f8                      ; guardamos el tercer elemento de la matriz en memoria
     sf      m+12,                   f9                      ; guardamos el cuarto elemento de la matriz en memoria
     j       calculoMedia                                    ; salto al calculo de la media de la matriz
+
+
 saveMedia:
     sf      mediam,                 f13
     j       calculoDeterminante                             ; salto al calculo del determinante de la matriz
+
+
 saveDeterminante:
     sf      detm,                   f17
     j       calculoAsociada                                 ; salto al calculo de la matriz asociada
