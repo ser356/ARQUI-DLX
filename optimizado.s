@@ -17,7 +17,6 @@ mediaV: .float 0.0
 .global main
 main:
 
-
     lf      f0,         valor_inicial           ; f0=5.0
     lw      r8,         tamanho                 ; r8=30 pero se puede utilizar cualquier valor en rango de 10 a 30
     addi    r9,         r0,             0       ; inicializamos el puntero de posicion del vector
@@ -94,7 +93,6 @@ loop:                                           ; bucle principal contiene el al
 
 ; control de la salida del bucle
 
-    addi    r10,        r10,            5       ; incrementamos el contador de tamanho de la secuencia
     seq     r11,        r10,            r8      ; comparamos el contador de  la secuencia con el tamanho
     bnez    r11,        calculoMatriz           ; si el bool es 1 salimos del bucle
 
