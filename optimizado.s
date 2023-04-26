@@ -17,7 +17,6 @@ mediaV: .float 0.0
 .global main
 main:
 
-    ;COMENTARIO PARA TOMAS !!!HAY QUE TERMINAR EN EL MAIN LO DE CALCULAR LOS CINCO PRIMEROS VALORES!!!!
     lf      f0,         valor_inicial           ; f0=5.0
     lw      r8,         tamanho                 ; r8=30 pero se puede utilizar cualquier valor en rango de 10 a 30
     addi    r9,         r0,             0       ; inicializamos el puntero de posicion del vector
@@ -27,6 +26,21 @@ main:
     sf      vector(r9), f0                      ; segunda posicion del vector a 5 ya que es el valor inicial, segundo elemento en la secuencia
     addi    r10,        r0,             5       ; inicializamos el contador de tamanho de la secuencia
     addf    f5,         f5,             f0      ; sumamos el valor inicial a la suma
+    addi    r9,         r9,             4       ; incrementamos el puntero del vector en 4 bytes puesto que es un float
+    addf    f18,        f0,             f1      ; calculamos el valor de la secuencia en n
+    addf    f5,         f5,             f18     ; sumamos el valor de la secuencia en n a la suma
+    sf      vector(r9), f18                     ; almacenamos en memoria el valor de la secuencia en vector[n]
+    addi    r9,         r9,             4       ; incrementamos el puntero del vector en 4 bytes puesto que es un float
+    addf    f19,        f18,            f0      ; calculamos el valor de la secuencia en n
+    addf    f5,         f5,             f19     ; sumamos el valor de la secuencia en n a la suma
+    sf      vector(r9), f19                     ; almacenamos en memoria el valor de la secuencia en vector[n]
+    addi    r9,         r9,             4       ; incrementamos el puntero del vector en 4 bytes puesto que es un float
+    addf    f20,        f19,            f18     ; calculamos el valor de la secuencia en n
+    addf    f5,         f5,             f20     ; sumamos el valor de la secuencia en n a la suma
+    sf      vector(r9), f20                     ; almacenamos en memoria el valor de la secuencia en vector[n]
+    addi    r9,         r9,             4       ; incrementamos el puntero del vector en 4 bytes puesto que es un float
+                                                ; en este momento hemos calculado los primeros 5 valores de la secuencia y los hemos almacenado en el vector
+
 
 ; hasta este punto estan usados los registros de coma flotante f0,f1,f5
 loop:                                           ; bucle principal contiene el algoritmo de calculo estilo fibonacci cc/ralves
@@ -38,8 +52,8 @@ loop:                                           ; bucle principal contiene el al
     addf    f5,         f5,             f4      ; sumamos el valor de la secuencia en n a la suma
                                                 ; se aprovecha el tiempo que se tarda en guardar el valor en memoria para almacenar el valor de la secuencia en el vector
     sf      vector(r9), f4                      ; almacenamos en memoria el valor de la secuencia en vector[n]
-
     addi    r9,         r9,             4       ; incrementamos el puntero del vector
+
     lf      f6,         vector-8(r9)            ; cargamos el valor de la secuencia en n-2
     lf      f7,         vector-4(r9)            ; cargamos el valor de la secuencia en n-1
     addf    f8,         f6,             f7      ; calculamos el valor de la secuencia en n
@@ -84,7 +98,6 @@ loop:                                           ; bucle principal contiene el al
 
 ; control de la salida del bucle
 
-    addi    r10,        r10,            5       ; incrementamos el contador de tamanho de la secuencia
     seq     r11,        r10,            r8      ; comparamos el contador de  la secuencia con el tamanho
     bnez    r11,        fin                     ; si el bool es 1 salimos del bucle
 
