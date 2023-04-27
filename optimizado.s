@@ -42,8 +42,12 @@ main:
 
 ; hasta este punto estan usados los registros de coma flotante f0,f1,f5
 loop:                                               ; bucle principal contiene el algoritmo de calculo estilo fibonacci cc/ralves
+    addi    r10,            r10,            5       ; incrementamos el contador de la secuencia
 
     addi    r9,             r9,             20      ; incrementamos el puntero del vector
+    seqi    r11,            r10,            10      ; comprobamos si estamos en la primera iteracion
+    bnez    r11,            opM                     ; si estamos en la primera iteracion saltamos a opM para calcular la MATRIZ
+continue:
     lf      f2,             vector-24(r9)           ; cargamos el valor de la secuencia en n-2
     lf      f3,             vector-20(r9)           ; cargamos el valor de la secuencia en n-1
     addf    f4,             f2,             f3      ; calculamos el valor de la secuencia en n
@@ -94,34 +98,27 @@ loop:                                               ; bucle principal contiene e
 ; control de la salida del bucle
 
     seq     r11,            r10,            r8      ; comparamos el contador de  la secuencia con el tamanho
-    bnez    r11,            calculoMatriz           ; si el bool es 1 salimos del bucle
-
+    bnez    r11,            fin                     ; si el bool es 1 salimos del bucle
     j       loop                                    ; si no volvemos a ejecutar el bucle
 
 
+opM:
+                                                    ; en la primera iteracion encontramos los valores de la matriz apuntados en el vector
+                                                    ; nos podemos ahorrar los load puesto que son mas costosos
+                                                    ; si queremos el 5 6 7 y 8 valor se correspondera con vector-20 vector-16 vector-12 vector-8
+    movf    f3,             f18
+    sf      M,              f18
+    movf    f4,             f19
+    sf      M+4,            f19
+    movf    f8,             f20
+    sf      M+8,            f20
+    movf    f11,            f21
+    sf      M+12,           f21
+    
 
-calculoMatriz:
+    j       continue
 
-    lf      f6,             vector+20
-    lf      f9,             vector+32
-
-    multf   f14,            f6,             f9      ; f14= m11*m22
-    sf      M,              f6
-
-    lf      f7,             vector+24
-    lf      f8,             vector+28
-
-    multf   f15,            f7,             f8      ; f15= m12*m21
-    sf      M+4,            f7
-
-    subf    f17,            f14,            f15     ; f17= m11*m22-m12*m21 -> determinante de la matriz
-    sf      M+8,            f8
-
-
-
-    sf      M+12,           f9
-    sf      detM,           f17
-
+fin:
 
 
 
