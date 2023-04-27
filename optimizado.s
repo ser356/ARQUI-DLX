@@ -42,6 +42,7 @@ main:
 
 ; hasta este punto estan usados los registros de coma flotante f0,f1,f5
 loop:                                               ; bucle principal contiene el algoritmo de calculo estilo fibonacci cc/ralves
+    addi    r10,r10,5                               ; incrementamos el contador de la secuencia
 
     addi    r9,             r9,             20      ; incrementamos el puntero del vector
     lf      f2,             vector-24(r9)           ; cargamos el valor de la secuencia en n-2
@@ -94,34 +95,12 @@ loop:                                               ; bucle principal contiene e
 ; control de la salida del bucle
 
     seq     r11,            r10,            r8      ; comparamos el contador de  la secuencia con el tamanho
-    bnez    r11,            calculoMatriz           ; si el bool es 1 salimos del bucle
-
+    bnez    r11,            fin                     ; si el bool es 1 salimos del bucle
     j       loop                                    ; si no volvemos a ejecutar el bucle
 
 
 
-calculoMatriz:
-
-    lf      f6,             vector+20
-    lf      f9,             vector+32
-
-    multf   f14,            f6,             f9      ; f14= m11*m22
-    sf      M,              f6
-
-    lf      f7,             vector+24
-    lf      f8,             vector+28
-
-    multf   f15,            f7,             f8      ; f15= m12*m21
-    sf      M+4,            f7
-
-    subf    f17,            f14,            f15     ; f17= m11*m22-m12*m21 -> determinante de la matriz
-    sf      M+8,            f8
-
-
-
-    sf      M+12,           f9
-    sf      detM,           f17
-
+fin:
 
 
 
