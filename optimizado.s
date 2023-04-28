@@ -45,9 +45,9 @@ loop:                                               ; bucle principal contiene e
     addi    r10,            r10,            5       ; incrementamos el contador de la secuencia
 
     addi    r9,             r9,             20      ; incrementamos el puntero del vector
-    seqi    r11,            r10,            10      ; comprobamos si estamos en la primera iteracion
-    bnez    r11,            opM                     ; si estamos en la primera iteracion saltamos a opM para calcular la MATRIZ
-continue:
+
+
+ 
     lf      f2,             vector-24(r9)           ; cargamos el valor de la secuencia en n-2
     lf      f3,             vector-20(r9)           ; cargamos el valor de la secuencia en n-1
     addf    f4,             f2,             f3      ; calculamos el valor de la secuencia en n
@@ -56,33 +56,25 @@ continue:
     sf      vector-16(r9),  f4                      ; almacenamos en memoria el valor de la secuencia en vector[n]
 
 
-    lf      f6,             vector-20(r9)           ; cargamos el valor de la secuencia en n-2
-    lf      f7,             vector-16(r9)           ; cargamos el valor de la secuencia en n-1
-    addf    f8,             f6,             f7      ; calculamos el valor de la secuencia en n
+    addf    f8,             f3,             f4      ; calculamos el valor de la secuencia en n
     addf    f5,             f5,             f8      ; sumamos el valor de la secuencia en n a la suma
     sf      vector-12(r9),  f8                      ; almacenamos en memoria el valor de la secuencia en vector[n]
 
 
 
-    lf      f9,             vector-16(r9)           ; cargamos el valor de la secuencia en n-2
-    lf      f10,            vector-12(r9)           ; cargamos el valor de la secuencia en n-1
-    addf    f11,            f10,            f9      ; calculamos el valor de la secuencia en n
+    addf    f11,            f8,             f4      ; calculamos el valor de la secuencia en n
     addf    f5,             f5,             f11     ; sumamos el valor de la secuencia en n a la suma
     sf      vector-8(r9),   f11                     ; almacenamos en memoria el valor de la secuencia en vector[n]
 
 
 
-    lf      f12,            vector-12(r9)           ; cargamos el valor de la secuencia en n-2
-    lf      f13,            vector-8(r9)            ; cargamos el valor de la secuencia en n-1
-    addf    f14,            f13,            f12     ; calculamos el valor de la secuencia en n
+    addf    f14,            f11,            f8      ; calculamos el valor de la secuencia en n
     addf    f5,             f5,             f14     ; sumamos el valor de la secuencia en n a la suma
     sf      vector-4(r9),   f14                     ; almacenamos en memoria el valor de la secuencia en vector[n]
 
 
 
-    lf      f15,            vector-8(r9)
-    lf      f16,            vector-4(r9)
-    addf    f17,            f16,            f15     ; calculamos el valor de la secuencia en n
+    addf    f17,            f14,            f11     ; calculamos el valor de la secuencia en n
     addf    f5,             f5,             f17     ; sumamos el valor de la secuencia en n a la suma
 
     sf      vector(r9),     f17                     ; almacenamos en memoria
@@ -97,29 +89,25 @@ continue:
 
 ; control de la salida del bucle
 
+    seq     r12,            r10,            10      ; comparamos el contador de  la secuencia con el tamanho
+    bnez    r12, opMat
+    continue:
     seq     r11,            r10,            r8      ; comparamos el contador de  la secuencia con el tamanho
     bnez    r11,            fin                     ; si el bool es 1 salimos del bucle
     j       loop                                    ; si no volvemos a ejecutar el bucle
 
 
-opM:
-                                                    ; en la primera iteracion encontramos los valores de la matriz apuntados en el vector
-                                                    ; nos podemos ahorrar los load puesto que son mas costosos
-                                                    ; si queremos el 5 6 7 y 8 valor se correspondera con vector-20 vector-16 vector-12 vector-8
-    movf    f3,             f18
-    sf      M,              f18
-    movf    f4,             f19
-    sf      M+4,            f19
-    movf    f8,             f20
-    sf      M+8,            f20
-    movf    f11,            f21
-    sf      M+12,           f21
-    
+opMat:
+movf  f20,f3
+sf    M, f3
+movf  f21,f4
+sf    M+4, f4
+movf  f22,f8
+sf    M+8, f8
+movf  f23,f11
+sf    M+12, f11
 
-    j       continue
+j continue
 
 fin:
-
-
-
     trap    0
