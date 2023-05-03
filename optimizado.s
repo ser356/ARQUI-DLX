@@ -16,7 +16,7 @@ mediaV: .float 0.0
 .text
 .global main
 main:
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;
                                                     ; Calculo de los primeros 10 elementos de la secuencia
     lf      f0,             valor_inicial           ; f0=5.0
     lw      r8,             tamanho                 ; r8=30 pero se puede utilizar cualquier valor en rango de 10 a 30
@@ -36,16 +36,14 @@ main:
     sf      vector(r9),     f20                     ; almacenamos en memoria el valor de la secuencia en vector[n]
 
 
-    addi    r10,            r10,            5       ; incrementamos el contador de la secuencia
 
     addi    r9,             r9,             20      ; incrementamos el puntero del vector
 
 
 
-    lf      f2,             vector-24(r9)           ; cargamos el valor de la secuencia en n-2
-    lf      f3,             vector-20(r9)           ; cargamos el valor de la secuencia en n-1
+    movf    f2,             f19                     ; cargamos el valor de la secuencia en n-2
+    movf    f3,             f20                     ; cargamos el valor de la secuencia en n-1
     addf    f4,             f2,             f3      ; calculamos el valor de la secuencia en n
-                                                    ; se aprovecha el tiempo que se tarda en guardar el valor en memoria para almacenar el valor de la secuencia en el vector
     sf      vector-16(r9),  f4                      ; almacenamos en memoria el valor de la secuencia en vector[n]
 
 
@@ -68,18 +66,20 @@ main:
 
     sf      vector(r9),     f17                     ; almacenamos en memoria
 
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;
 
     jal     opMat                                   ; SALTO INCONDICIONAL PARA CALCULAR MATRIZ ASOCIADA A LA SECUENCIA
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;
-
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;
+    addi    r11,            r10,            10
+    seqi    r11,            r8,             10
+    bnez    r11,            fin
 
     addi    r9,             r9,             20      ; incrementamos el puntero del vector
 
 
 
-    lf      f2,             vector-24(r9)           ; cargamos el valor de la secuencia en n-2
-    lf      f3,             vector-20(r9)           ; cargamos el valor de la secuencia en n-1
+    movf    f2,             f14                     ; cargamos el valor de la secuencia en n-2
+    movf    f3,             f17                     ; cargamos el valor de la secuencia en n-1
     addf    f4,             f2,             f3      ; calculamos el valor de la secuencia en n
                                                     ; se aprovecha el tiempo que se tarda en guardar el valor en memoria para almacenar el valor de la secuencia en el vector
     sf      vector-16(r9),  f4                      ; almacenamos en memoria el valor de la secuencia en vector[n]
@@ -104,19 +104,22 @@ main:
 
     sf      vector(r9),     f17                     ; almacenamos en memoria
 
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;
 
     ;SE     HAN,            CALCULADO,      OTROS,  CINCO,VALORES,DE,LA,SECUENCIA; EL ENUNCIADO PIDE MULTIPLOS DE 5
 
 
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;
 
+    addi    r11,            r10,            10
+    seq     r11,            r8,             15
+    bnez    r11,            fin
     addi    r9,             r9,             20      ; incrementamos el puntero del vector
 
 
 
-    lf      f2,             vector-24(r9)           ; cargamos el valor de la secuencia en n-2
-    lf      f3,             vector-20(r9)           ; cargamos el valor de la secuencia en n-1
+    movf    f2,             f14                     ; cargamos el valor de la secuencia en n-2
+    movf    f3,             f17                     ; cargamos el valor de la secuencia en n-1
     addf    f4,             f2,             f3      ; calculamos el valor de la secuencia en n
                                                     ; se aprovecha el tiempo que se tarda en guardar el valor en memoria para almacenar el valor de la secuencia en el vector
     sf      vector-16(r9),  f4                      ; almacenamos en memoria el valor de la secuencia en vector[n]
@@ -138,19 +141,21 @@ main:
 
     sf      vector(r9),     f17                     ; almacenamos en memoria
 
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;
 
 ; OTROS 5 VALORES DE LA SECUENCIA HAN SIDO CALCULADOS
 
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;
 
-
+    addi    r11,            r10,            10
+    seq     r11,            r8,             20
+    bnez    r11,            fin
     addi    r9,             r9,             20      ; incrementamos el puntero del vector
 
 
 
-    lf      f2,             vector-24(r9)           ; cargamos el valor de la secuencia en n-2
-    lf      f3,             vector-20(r9)           ; cargamos el valor de la secuencia en n-1
+    movf    f2,             f14                     ; cargamos el valor de la secuencia en n-2
+    movf    f3,             f17                     ; cargamos el valor de la secuencia en n-1
     addf    f4,             f2,             f3      ; calculamos el valor de la secuencia en n
                                                     ; se aprovecha el tiempo que se tarda en guardar el valor en memoria para almacenar el valor de la secuencia en el vector
     sf      vector-16(r9),  f4                      ; almacenamos en memoria el valor de la secuencia en vector[n]
@@ -175,18 +180,20 @@ main:
 
     sf      vector(r9),     f17                     ; almacenamos en memoria
 
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;
 
 ; OTROS 5 VALORES DE LA SECUENCIA HAN SIDO CALCULADOS
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;
 
-
+    addi    r11,            r10,            10
+    seq     r11,            r8,             25
+    bnez    r11,            fin
     addi    r9,             r9,             20      ; incrementamos el puntero del vector
 
 
 
-    lf      f2,             vector-24(r9)           ; cargamos el valor de la secuencia en n-2
-    lf      f3,             vector-20(r9)           ; cargamos el valor de la secuencia en n-1
+    movf    f2,             f14                     ; cargamos el valor de la secuencia en n-2
+    movf    f3,             f17                     ; cargamos el valor de la secuencia en n-1
     addf    f4,             f2,             f3      ; calculamos el valor de la secuencia en n
     sf      vector-16(r9),  f4                      ; almacenamos en memoria el valor de la secuencia en vector[n]
 
@@ -214,11 +221,24 @@ main:
 ; end secuencia
 
 
+
+
+
+
+
+
+
+
+
+
+
 fin:
-    trap    0 ; fin del programa
+    trap    0
 
 
 
+
+; no se esta ejecutando el codigo de abajo
 opMat:
     movf    f20,            f3
     sf      M,              f3
