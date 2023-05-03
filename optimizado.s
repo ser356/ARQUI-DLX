@@ -217,6 +217,8 @@ main:
 
     sf      vector(r9),     f17                     ; almacenamos en memoria
 
+    j     fin
+
 
 ; end secuencia
 
@@ -233,6 +235,12 @@ main:
 
 
 fin:
+    ; calculamos dos valores mas de la secuencia para poder calcular el valor de la suma
+    addf    f20,            f17,            f14
+    addf    f8,             f3,             f4      
+
+    addf    f21,            f20,            f8
+    sf      f21,suma
     trap    0
 
 
