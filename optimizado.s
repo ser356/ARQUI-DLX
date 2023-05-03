@@ -233,13 +233,14 @@ main:
 
 
 fin:
-    addf    f20,            f17,            f14
-    addf    f8,             f3,             f4
 
-    addf    f21,            f20,            f8
+    ; valor31=f17+f14
+    ; valor32=f14+valor31
+    addf f28  , f17, f14
+    addf f29  , f28,f17
+    subf f30  , f29,f0 
+    sf   suma, f30
     
-        subf f21,f0
-        sf  suma,f21    
     trap    0
 
 
@@ -247,12 +248,12 @@ fin:
 
 ; no se esta ejecutando el codigo de abajo
 opMat:
-    movf    f20,            f3
-    sf      M,              f3
-    movf    f21,            f4
-    sf      M+4,            f4
-    movf    f22,            f8
-    sf      M+8,            f8
-    movf    f23,            f11
-    sf      M+12,           f11
+    movf    f20,            f4
+    sf      M,              f20
+    movf    f21,            f8
+    sf      M+4,            f21
+    movf    f22,            f11
+    sf      M+8,            f22
+    movf    f23,            f14
+    sf      M+12,           f23
     jr      r31
