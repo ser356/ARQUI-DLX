@@ -39,10 +39,209 @@ main:
     addf    f5,             f5,             f20     ; sumamos el valor de la secuencia en n a la suma
     sf      vector(r9),     f20                     ; almacenamos en memoria el valor de la secuencia en vector[n]
 
-
-; hasta este punto estan usados los registros de coma flotante f0,f1,f5
-loop:                                               ; bucle principal contiene el algoritmo de calculo estilo fibonacci cc/ralves
+ 
     addi    r10,            r10,            5       ; incrementamos el contador de la secuencia
+
+    addi    r9,             r9,             20      ; incrementamos el puntero del vector
+
+
+ 
+    lf      f2,             vector-24(r9)           ; cargamos el valor de la secuencia en n-2
+    lf      f3,             vector-20(r9)           ; cargamos el valor de la secuencia en n-1
+    addf    f4,             f2,             f3      ; calculamos el valor de la secuencia en n
+    addf    f5,             f5,             f4      ; sumamos el valor de la secuencia en n a la suma
+                                                    ; se aprovecha el tiempo que se tarda en guardar el valor en memoria para almacenar el valor de la secuencia en el vector
+    sf      vector-16(r9),  f4                      ; almacenamos en memoria el valor de la secuencia en vector[n]
+
+
+    addf    f8,             f3,             f4      ; calculamos el valor de la secuencia en n
+    addf    f5,             f5,             f8      ; sumamos el valor de la secuencia en n a la suma
+    sf      vector-12(r9),  f8                      ; almacenamos en memoria el valor de la secuencia en vector[n]
+
+
+
+    addf    f11,            f8,             f4      ; calculamos el valor de la secuencia en n
+    addf    f5,             f5,             f11     ; sumamos el valor de la secuencia en n a la suma
+    sf      vector-8(r9),   f11                     ; almacenamos en memoria el valor de la secuencia en vector[n]
+
+
+
+    addf    f14,            f11,            f8      ; calculamos el valor de la secuencia en n
+    addf    f5,             f5,             f14     ; sumamos el valor de la secuencia en n a la suma
+    sf      vector-4(r9),   f14                     ; almacenamos en memoria el valor de la secuencia en vector[n]
+
+
+
+    addf    f17,            f14,            f11     ; calculamos el valor de la secuencia en n
+    addf    f5,             f5,             f17     ; sumamos el valor de la secuencia en n a la suma
+
+    sf      vector(r9),     f17                     ; almacenamos en memoria
+
+
+
+; notese que se deja para el final para aprovechar el tiempo de ejecucion del bucle
+    sf      suma,           f5                      ; almacenamos la suma en memoria
+
+
+    addi    r9,             r9,             20      ; incrementamos el puntero del vector
+
+
+ 
+    lf      f2,             vector-24(r9)           ; cargamos el valor de la secuencia en n-2
+    lf      f3,             vector-20(r9)           ; cargamos el valor de la secuencia en n-1
+    addf    f4,             f2,             f3      ; calculamos el valor de la secuencia en n
+    addf    f5,             f5,             f4      ; sumamos el valor de la secuencia en n a la suma
+                                                    ; se aprovecha el tiempo que se tarda en guardar el valor en memoria para almacenar el valor de la secuencia en el vector
+    sf      vector-16(r9),  f4                      ; almacenamos en memoria el valor de la secuencia en vector[n]
+
+
+    addf    f8,             f3,             f4      ; calculamos el valor de la secuencia en n
+    addf    f5,             f5,             f8      ; sumamos el valor de la secuencia en n a la suma
+    sf      vector-12(r9),  f8                      ; almacenamos en memoria el valor de la secuencia en vector[n]
+
+
+
+    addf    f11,            f8,             f4      ; calculamos el valor de la secuencia en n
+    addf    f5,             f5,             f11     ; sumamos el valor de la secuencia en n a la suma
+    sf      vector-8(r9),   f11                     ; almacenamos en memoria el valor de la secuencia en vector[n]
+
+
+
+    addf    f14,            f11,            f8      ; calculamos el valor de la secuencia en n
+    addf    f5,             f5,             f14     ; sumamos el valor de la secuencia en n a la suma
+    sf      vector-4(r9),   f14                     ; almacenamos en memoria el valor de la secuencia en vector[n]
+
+
+
+    addf    f17,            f14,            f11     ; calculamos el valor de la secuencia en n
+    addf    f5,             f5,             f17     ; sumamos el valor de la secuencia en n a la suma
+
+    sf      vector(r9),     f17                     ; almacenamos en memoria
+
+
+
+; notese que se deja para el final para aprovechar el tiempo de ejecucion del bucle
+    sf      suma,           f5                      ; almacenamos la suma en memoria
+
+    addi    r9,             r9,             20      ; incrementamos el puntero del vector
+
+
+ 
+    lf      f2,             vector-24(r9)           ; cargamos el valor de la secuencia en n-2
+    lf      f3,             vector-20(r9)           ; cargamos el valor de la secuencia en n-1
+    addf    f4,             f2,             f3      ; calculamos el valor de la secuencia en n
+    addf    f5,             f5,             f4      ; sumamos el valor de la secuencia en n a la suma
+                                                    ; se aprovecha el tiempo que se tarda en guardar el valor en memoria para almacenar el valor de la secuencia en el vector
+    sf      vector-16(r9),  f4                      ; almacenamos en memoria el valor de la secuencia en vector[n]
+
+
+    addf    f8,             f3,             f4      ; calculamos el valor de la secuencia en n
+    addf    f5,             f5,             f8      ; sumamos el valor de la secuencia en n a la suma
+    sf      vector-12(r9),  f8                      ; almacenamos en memoria el valor de la secuencia en vector[n]
+
+
+
+    addf    f11,            f8,             f4      ; calculamos el valor de la secuencia en n
+    addf    f5,             f5,             f11     ; sumamos el valor de la secuencia en n a la suma
+    sf      vector-8(r9),   f11                     ; almacenamos en memoria el valor de la secuencia en vector[n]
+
+
+
+    addf    f14,            f11,            f8      ; calculamos el valor de la secuencia en n
+    addf    f5,             f5,             f14     ; sumamos el valor de la secuencia en n a la suma
+    sf      vector-4(r9),   f14                     ; almacenamos en memoria el valor de la secuencia en vector[n]
+
+
+
+    addf    f17,            f14,            f11     ; calculamos el valor de la secuencia en n
+    addf    f5,             f5,             f17     ; sumamos el valor de la secuencia en n a la suma
+
+    sf      vector(r9),     f17                     ; almacenamos en memoria
+
+
+
+; notese que se deja para el final para aprovechar el tiempo de ejecucion del bucle
+    sf      suma,           f5                      ; almacenamos la suma en memoria
+
+    addi    r9,             r9,             20      ; incrementamos el puntero del vector
+
+
+ 
+    lf      f2,             vector-24(r9)           ; cargamos el valor de la secuencia en n-2
+    lf      f3,             vector-20(r9)           ; cargamos el valor de la secuencia en n-1
+    addf    f4,             f2,             f3      ; calculamos el valor de la secuencia en n
+    addf    f5,             f5,             f4      ; sumamos el valor de la secuencia en n a la suma
+                                                    ; se aprovecha el tiempo que se tarda en guardar el valor en memoria para almacenar el valor de la secuencia en el vector
+    sf      vector-16(r9),  f4                      ; almacenamos en memoria el valor de la secuencia en vector[n]
+
+
+    addf    f8,             f3,             f4      ; calculamos el valor de la secuencia en n
+    addf    f5,             f5,             f8      ; sumamos el valor de la secuencia en n a la suma
+    sf      vector-12(r9),  f8                      ; almacenamos en memoria el valor de la secuencia en vector[n]
+
+
+
+    addf    f11,            f8,             f4      ; calculamos el valor de la secuencia en n
+    addf    f5,             f5,             f11     ; sumamos el valor de la secuencia en n a la suma
+    sf      vector-8(r9),   f11                     ; almacenamos en memoria el valor de la secuencia en vector[n]
+
+
+
+    addf    f14,            f11,            f8      ; calculamos el valor de la secuencia en n
+    addf    f5,             f5,             f14     ; sumamos el valor de la secuencia en n a la suma
+    sf      vector-4(r9),   f14                     ; almacenamos en memoria el valor de la secuencia en vector[n]
+
+
+
+    addf    f17,            f14,            f11     ; calculamos el valor de la secuencia en n
+    addf    f5,             f5,             f17     ; sumamos el valor de la secuencia en n a la suma
+
+    sf      vector(r9),     f17                     ; almacenamos en memoria
+
+
+
+; notese que se deja para el final para aprovechar el tiempo de ejecucion del bucle
+    sf      suma,           f5                      ; almacenamos la suma en memoria
+
+    addi    r9,             r9,             20      ; incrementamos el puntero del vector
+
+
+ 
+    lf      f2,             vector-24(r9)           ; cargamos el valor de la secuencia en n-2
+    lf      f3,             vector-20(r9)           ; cargamos el valor de la secuencia en n-1
+    addf    f4,             f2,             f3      ; calculamos el valor de la secuencia en n
+    addf    f5,             f5,             f4      ; sumamos el valor de la secuencia en n a la suma
+                                                    ; se aprovecha el tiempo que se tarda en guardar el valor en memoria para almacenar el valor de la secuencia en el vector
+    sf      vector-16(r9),  f4                      ; almacenamos en memoria el valor de la secuencia en vector[n]
+
+
+    addf    f8,             f3,             f4      ; calculamos el valor de la secuencia en n
+    addf    f5,             f5,             f8      ; sumamos el valor de la secuencia en n a la suma
+    sf      vector-12(r9),  f8                      ; almacenamos en memoria el valor de la secuencia en vector[n]
+
+
+
+    addf    f11,            f8,             f4      ; calculamos el valor de la secuencia en n
+    addf    f5,             f5,             f11     ; sumamos el valor de la secuencia en n a la suma
+    sf      vector-8(r9),   f11                     ; almacenamos en memoria el valor de la secuencia en vector[n]
+
+
+
+    addf    f14,            f11,            f8      ; calculamos el valor de la secuencia en n
+    addf    f5,             f5,             f14     ; sumamos el valor de la secuencia en n a la suma
+    sf      vector-4(r9),   f14                     ; almacenamos en memoria el valor de la secuencia en vector[n]
+
+
+
+    addf    f17,            f14,            f11     ; calculamos el valor de la secuencia en n
+    addf    f5,             f5,             f17     ; sumamos el valor de la secuencia en n a la suma
+
+    sf      vector(r9),     f17                     ; almacenamos en memoria
+
+
+
+; notese que se deja para el final para aprovechar el tiempo de ejecucion del bucle
+    sf      suma,           f5                      ; almacenamos la suma en memoria
 
     addi    r9,             r9,             20      ; incrementamos el puntero del vector
 
@@ -87,16 +286,20 @@ loop:                                               ; bucle principal contiene e
 
 
 
-; control de la salida del bucle
+ 
 
-    seq     r12,            r10,            10      ; comparamos el contador de  la secuencia con el tamanho
-    bnez    r12, opMat
-    continue:
-    seq     r11,            r10,            r8      ; comparamos el contador de  la secuencia con el tamanho
-    bnez    r11,            fin                     ; si el bool es 1 salimos del bucle
-    j       loop                                    ; si no volvemos a ejecutar el bucle
+   
+     
+
+ 
+
+fin:
+    trap    0
 
 
+
+
+;no se esta ejecutando el codigo de abajo
 opMat:
 movf  f20,f3
 sf    M, f3
@@ -106,8 +309,3 @@ movf  f22,f8
 sf    M+8, f8
 movf  f23,f11
 sf    M+12, f11
-
-j continue
-
-fin:
-    trap    0
