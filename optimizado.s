@@ -234,8 +234,7 @@ fin:
 
 
     ; al no calcular algunos valores por ahorrar instrucciones, existe offset en el puntero del vector
-    ; por lo que ahora en vez de calcular dos valores mas de la secuencia
-    ; se calcula uno mas y se almacena en memoria
+    ; por lo que ahora en vez de calcular dos valores mas de la secuencia se calcula uno mas y se almacena en memoria
     addf    f28,            f17,            f14     ; calculamos el valor de la secuencia en n
     subf    f29,            f28,            f0
     sf      suma,f29
@@ -246,12 +245,12 @@ fin:
 
 ; no se esta ejecutando el codigo de abajo
 opMat:
-    movf    f20,            f4
+    movf    f20,            f3
     sf      M,              f20
-    movf    f21,            f8
+    movf    f21,            f4
     sf      M+4,            f21
-    movf    f22,            f11
+    movf    f22,            f8
     sf      M+8,            f22
-    movf    f23,            f14
+    movf    f23,            f11
     sf      M+12,           f23
     jr      r31
