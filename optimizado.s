@@ -239,32 +239,30 @@ fin:
 
 
 opMat:
-    movf    f20,            f3                      ; primer valor de la matriz
-    movf    f23,            f11                     ; ultimo valor de la matriz
-    multf   f10,            f20,            f23     ; calculo diagonal principal
+   
+    multf   f10,            f3,            f11     ; calculo diagonal principal
 
-    movf    f21,            f4                      ; segundo valor de la matriz
-    movf    f22,            f8                      ; tercer valor de la matriz
-    subf    f27,            f17,            f21     ; calculo de la suma total de la matriz
-    multf   f11,            f21,            f22     ; calculamos diagonal secundaria
+    
+    subf    f27,            f17,            f4     ; calculo de la suma total de la matriz
+    multf   f12,            f4,            f8    ; calculamos diagonal secundaria
     divf    f28,            f27,            f1      ; calculo de la media de la matriz M
 
 
 
 
-    subf    f12,            f10,            f11     ; calculo de la determinante
+    subf    f13,            f10,            f12     ; calculo de la determinante
+    sf      detM,           f13
 
-    divf    f29,            f28,            f12     ; calculo de la media de la matriz V
+    divf    f29,            f28,            f13     ; calculo de la media de la matriz V
 
 
 
 
-    sf      M,              f20
-    sf      M+4,            f21
-    sf      M+8,            f22
-    sf      M+12,           f23
+    sf      M,              f3
+    sf      M+4,            f4
+    sf      M+8,            f8
+    sf      M+12,           f11
 
-    sf      detM,           f12
     sf      mediaM,         f28
     sf      mediaV,         f29
     jr      r31
