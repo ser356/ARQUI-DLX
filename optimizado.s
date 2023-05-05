@@ -14,6 +14,7 @@ V: .float 0.0, 0.0
 detV: .float 0.0
 mediaV: .float 0.0
 cuatro: .float 4.0
+uno:    .float 1.0
 .text
 .global main
 main:
@@ -248,6 +249,7 @@ opMat:
 
 
     subf    f13,            f10,            f12     ; calculo de la determinante
+    divf    f6,             f2,             f13     ; calculo de la determinante
     sf      detM,           f13
 
     divf    f29,            f28,            f13     ; calculo de la media de la matriz V
@@ -259,7 +261,7 @@ opMat:
     sf      M+4,            f4
     sf      M+8,            f8
     sf      M+12,           f11
-
+    sf      detV,           f6
     sf      mediaM,         f28
     sf      mediaV,         f29
     jr      r31
