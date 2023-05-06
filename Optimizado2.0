@@ -139,6 +139,12 @@ main:
     addf    f40,            f39,            f38
     sf      vector-00(r9),  f40
 
+    ; Para calcular la suma
+    addf    f41,            f40,            f37
+
+    addf    f42,            f21,            f38
+
+
 fin:
-    addf    f16,            f40,            f0
+    sf      suma,           f42
     trap    0
