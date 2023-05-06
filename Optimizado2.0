@@ -78,81 +78,38 @@ main:
     sf      V,              f7
     sf      mediaV,         f29
 
-    addi    r11,            r10,            10
-    seqi    r11,            r8,             10
-    bnez    r11,            fin
+    ; Calculating the remaining sequence values without loops
+    addf    f21,            f15,            f17
+    sf      vector-76(r9),  f21
 
-    sf      vector-76(r9),  f15
-    addf    f8,             f15,            f17
-    sf      vector-72(r9),  f8
+    addf    f22,            f21,            f15
+    sf      vector-72(r9),  f22
 
-    addf    f11,            f8,             f15
-    sf      vector-68(r9),  f11
+    addf    f23,            f22,            f21
+    sf      vector-68(r9),  f23
 
-    addf    f14,            f11,            f8
-    sf      vector-64(r9),  f14
+    addf    f24,            f23,            f22
+    sf      vector-64(r9),  f24
 
-    addf    f17,            f14,            f11
-    addf    f15,            f17,            f14
+    addf    f25,            f24,            f23
+    sf      vector-60(r9),  f25
 
-    sf      vector-60(r9),  f17
+    addf    f26,            f25,            f24
+    sf      vector-56(r9),  f26
 
-    addi    r11,            r10,            10
-    seq     r11,            r8,             15
-    bnez    r11,            fin
+    addf    f27,            f26,            f25
+    sf      vector-52(r9),  f27
 
-    sf      vector-56(r9),  f15
-    addf    f8,             f15,            f17
-    sf      vector-52(r9),  f8
+    addf    f28,            f27,            f26
+    sf      vector-48(r9),  f28
 
-    addf    f11,            f8,             f15
-    sf      vector-48(r9),  f11
+    addf    f29,            f28,            f27
+    sf      vector-44(r9),  f29
 
-    addf    f14,            f11,            f8
-    sf      vector-44(r9),  f14
-
-    addf    f17,            f14,            f11
-    addf    f15,            f17,            f14
-
-    sf      vector-40(r9),  f17
-
-    addi    r11,            r10,            10
-    seq     r11,            r8,             20
-    bnez    r11,            fin
-
-    sf      vector-36(r9),  f15
-    addf    f8,             f15,            f17
-    sf      vector-32(r9),  f8
-
-    addf    f11,            f8,             f15
-    sf      vector-28(r9),  f11
-
-    addf    f14,            f11,            f8
-    sf      vector-24(r9),  f14
-
-    addf    f17,            f14,            f11
-    addf    f15,            f17,            f14
-
-    sf      vector-20(r9),  f17
-
-    addi    r11,            r10,            10
-    seq     r11,            r8,             25
-    bnez    r11,            fin
-
-    sf      vector-16(r9),  f15
-    addf    f8,             f15,            f17
-    sf      vector-12(r9),  f8
-
-    addf    f11,            f8,             f15
-    sf      vector-8(r9),   f11
-
-    addf    f14,            f11,            f8
-    sf      vector-4(r9),   f14
-
-    addf    f5,             f14,            f11
-    addf    f28,            f5,             f14
+    addf    f30,            f29,            f28
+    sf      vector-40(r9),  f30
 
 fin:
-    subf    f16,            f28,            f0
+    subf    f16,            f30,            f0
     sf      suma,           f16
     trap    0
