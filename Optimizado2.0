@@ -109,7 +109,36 @@ main:
     addf    f30,            f29,            f28
     sf      vector-40(r9),  f30
 
+    addf    f31,            f30,            f29
+    sf      vector-36(r9),  f31
+
+    addf    f32,            f31,            f30
+    sf      vector-32(r9),  f32
+
+    addf    f33,            f32,            f31
+    sf      vector-28(r9),  f33
+
+    addf    f34,            f33,            f32
+    sf      vector-24(r9),  f34
+
+    addf    f35,            f34,            f33
+    sf      vector-20(r9),  f35
+
+    addf    f36,            f35,            f34
+    sf      vector-16(r9),  f36
+
+    addf    f37,            f36,            f35
+    sf      vector-12(r9),  f37
+
+    addf    f38,            f37,            f36
+    sf      vector-08(r9),  f38
+
+    addf    f39,            f38,            f37
+    sf      vector-04(r9),  f39
+
+    addf    f40,            f39,            f38
+    sf      vector-00(r9),  f40
+
 fin:
-    subf    f16,            f30,            f0
-    sf      suma,           f16
+    addf    f16,            f40,            f0
     trap    0
