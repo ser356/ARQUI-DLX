@@ -140,9 +140,9 @@ main:
     sf      vector-00(r9),  f40
 
     ; Para calcular la suma
-    addf    f41,            f40,            f37
+    addf    f41,            f40,            f39
 
-    addf    f42,            f21,            f38
+    addf    f42,            f41,            f40
 
 
 fin:
