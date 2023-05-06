@@ -78,7 +78,7 @@ main:
     sf      V,              f7
     sf      mediaV,         f29
 
-    ; Calculating the remaining sequence values without loops
+    ; Calculamos el resto de los valores de la secuencia
     addf    f21,            f15,            f17
     sf      vector-76(r9),  f21
 
