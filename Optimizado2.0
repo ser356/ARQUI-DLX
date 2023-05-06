@@ -1,0 +1,158 @@
+.data
+valor_inicial: .float 5.0
+tamanho: .word 30
+vector: .space 120
+suma: .float 0
+
+M: .float 0.0, 0.0
+.float 0.0, 0.0
+detM: .float 0.0
+mediaM: .float 0.0
+
+V: .float 0.0, 0.0
+.float 0.0, 0.0
+detV: .float 0.0
+mediaV: .float 0.0
+cuatro: .float 4.0
+uno: .float 1.0
+.text
+.global main
+main:
+    lf      f3,             uno
+    lf      f1,             cuatro
+    lf      f0,             valor_inicial
+    lw      r8,             tamanho
+    addi    r9,             r0,             120
+
+    sf      vector-116(r9), f0
+    sf      vector-112(r9), f0
+    addf    f18,            f0,             f0
+
+    sf      vector-108(r9), f18
+    addf    f19,            f18,            f0
+
+    sf      vector-104(r9), f19
+    addf    f20,            f19,            f18
+
+    sf      vector-100(r9), f20
+
+    addf    f4,             f20,            f19
+    sf      vector-96(r9),  f4
+
+    addf    f8,             f20,            f4
+    sf      vector-92(r9),  f8
+
+    addf    f11,            f8,             f4
+    sf      vector-88(r9),  f11
+
+    addf    f14,            f11,            f8
+    sf      vector-84(r9),  f14
+
+    addf    f17,            f14,            f11
+    addf    f15,            f17,            f14
+
+    sf      vector-80(r9),  f17
+
+    subf    f27,            f17,            f4
+
+    divf    f28,            f27,            f1
+    sf      mediaM,         f28
+    sf      M,              f20
+    sf      M+4,            f4
+
+    multf   f10,            f20,            f11
+    sf      M+8,            f8
+    sf      M+12,           f11
+
+    multf   f12,            f4,             f8
+    subf    f13,            f10,            f12
+
+    sf      detM,           f13
+
+    divf    f8,             f3,             f13
+    sf      detV,           f8
+
+    divf    f7,             f20,            f13
+
+    divf    f29,            f28,            f13
+    sf      V,              f7
+    sf      mediaV,         f29
+
+    addi    r11,            r10,            10
+    seqi    r11,            r8,             10
+    bnez    r11,            fin
+
+    sf      vector-76(r9),  f15
+    addf    f8,             f15,            f17
+    sf      vector-72(r9),  f8
+
+    addf    f11,            f8,             f15
+    sf      vector-68(r9),  f11
+
+    addf    f14,            f11,            f8
+    sf      vector-64(r9),  f14
+
+    addf    f17,            f14,            f11
+    addf    f15,            f17,            f14
+
+    sf      vector-60(r9),  f17
+
+    addi    r11,            r10,            10
+    seq     r11,            r8,             15
+    bnez    r11,            fin
+
+    sf      vector-56(r9),  f15
+    addf    f8,             f15,            f17
+    sf      vector-52(r9),  f8
+
+    addf    f11,            f8,             f15
+    sf      vector-48(r9),  f11
+
+    addf    f14,            f11,            f8
+    sf      vector-44(r9),  f14
+
+    addf    f17,            f14,            f11
+    addf    f15,            f17,            f14
+
+    sf      vector-40(r9),  f17
+
+    addi    r11,            r10,            10
+    seq     r11,            r8,             20
+    bnez    r11,            fin
+
+    sf      vector-36(r9),  f15
+    addf    f8,             f15,            f17
+    sf      vector-32(r9),  f8
+
+    addf    f11,            f8,             f15
+    sf      vector-28(r9),  f11
+
+    addf    f14,            f11,            f8
+    sf      vector-24(r9),  f14
+
+    addf    f17,            f14,            f11
+    addf    f15,            f17,            f14
+
+    sf      vector-20(r9),  f17
+
+    addi    r11,            r10,            10
+    seq     r11,            r8,             25
+    bnez    r11,            fin
+
+    sf      vector-16(r9),  f15
+    addf    f8,             f15,            f17
+    sf      vector-12(r9),  f8
+
+    addf    f11,            f8,             f15
+    sf      vector-8(r9),   f11
+
+    addf    f14,            f11,            f8
+    sf      vector-4(r9),   f14
+
+    addf    f5,             f14,            f11
+    addf    f28,            f5,             f14
+
+fin:
+    subf    f16,            f28,            f0
+    sf      suma,           f16
+    trap    0
