@@ -79,72 +79,72 @@ main:
     sf      mediaV,         f29
 
     ; Calculamos el resto de los valores de la secuencia
-    addf    f21,            f15,            f17
-    sf      vector-76(r9),  f21
+    addf    f4,            f15,            f17
+    sf      vector-76(r9),  f4
 
-    addf    f22,            f21,            f15
-    sf      vector-72(r9),  f22
+    addf    f5,            f4,            f15
+    sf      vector-72(r9),  f5
+
+    addf    f6,            f5,            f4
+    sf      vector-68(r9),  f6
+
+    addf    f7,            f6,            f5
+    sf      vector-64(r9),  f7
+
+    addf    f8,            f7,            f6
+    sf      vector-60(r9),  f8
+
+    addf    f9,            f8,            f7
+    sf      vector-56(r9),  f9
+
+    addf    f10,            f9,            f8
+    sf      vector-52(r9),  f10
+
+    addf    f11,            f10,            f9
+    sf      vector-48(r9),  f11
+
+    addf    f12,            f11,            f10
+    sf      vector-44(r9),  f12
+
+    addf    f13,            f12,            f11
+    sf      vector-40(r9),  f13
+
+    addf    f14,            f13,            f12
+    sf      vector-36(r9),  f14
+
+    addf    f15,            f14,            f13
+    sf      vector-32(r9),  f15
+
+    addf    f16,            f15,            f14
+    sf      vector-28(r9),  f16
+
+    addf    f17,            f16,            f15
+    sf      vector-24(r9),  f17
+
+    addf    f18,            f17,            f16
+    sf      vector-20(r9),  f18
+
+    addf    f19,            f18,            f17
+    sf      vector-16(r9),  f19
+
+    addf    f20,            f19,            f18
+    sf      vector-12(r9),  f20
+
+    addf    f21,            f20,            f19
+    sf      vector-8(r9),  f21
+
+    addf    f22,            f21,            f20
+    sf      vector-4(r9),  f22
 
     addf    f23,            f22,            f21
-    sf      vector-68(r9),  f23
-
-    addf    f24,            f23,            f22
-    sf      vector-64(r9),  f24
-
-    addf    f25,            f24,            f23
-    sf      vector-60(r9),  f25
-
-    addf    f26,            f25,            f24
-    sf      vector-56(r9),  f26
-
-    addf    f27,            f26,            f25
-    sf      vector-52(r9),  f27
-
-    addf    f28,            f27,            f26
-    sf      vector-48(r9),  f28
-
-    addf    f29,            f28,            f27
-    sf      vector-44(r9),  f29
-
-    addf    f30,            f29,            f28
-    sf      vector-40(r9),  f30
-
-    addf    f31,            f30,            f29
-    sf      vector-36(r9),  f31
-
-    addf    f32,            f31,            f30
-    sf      vector-32(r9),  f32
-
-    addf    f33,            f32,            f31
-    sf      vector-28(r9),  f33
-
-    addf    f34,            f33,            f32
-    sf      vector-24(r9),  f34
-
-    addf    f35,            f34,            f33
-    sf      vector-20(r9),  f35
-
-    addf    f36,            f35,            f34
-    sf      vector-16(r9),  f36
-
-    addf    f37,            f36,            f35
-    sf      vector-12(r9),  f37
-
-    addf    f38,            f37,            f36
-    sf      vector-08(r9),  f38
-
-    addf    f39,            f38,            f37
-    sf      vector-04(r9),  f39
-
-    addf    f40,            f39,            f38
-    sf      vector-00(r9),  f40
+    sf      vector(r9),     f23
 
     ; Para calcular la suma
-    addf    f41,            f40,            f39
+    addf    f24,            f23,            f22
 
-    addf    f42,            f41,            f40
+    addf    f25,            f24,            f23
 
 
 fin:
-    sf      suma,           f42
+    sf      suma,           f25
     trap    0
