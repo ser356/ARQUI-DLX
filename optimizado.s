@@ -24,8 +24,7 @@ main:
     lw      r8,             tamanho
     addi    r9,             r0,             120
 
-    sf      vector-116(r9), f0
-    sf      vector-112(r9), f0
+
     addf    f18,            f0,             f0
 
     sf      vector-108(r9), f18
@@ -59,6 +58,8 @@ main:
 
 
     multf   f12,            f4,             f8
+    sf      vector-116(r9), f0                  ; se han introducido aqui para aprovechar el tiempo de calculo de la multiplicacion
+    sf      vector-112(r9), f0
     subf    f13,            f10,            f12
 
     sf      detM,           f13
@@ -66,13 +67,14 @@ main:
     divf    f8,             f3,             f13
     sf      detV,           f8
 
-    divf    f7,             f20,            f13
+    multf   f7,             f8,             f20
     sf      M,              f20
 
 
     sf      mediaV,         f29
     addf    f17,            f14,            f11
     sf      vector-80(r9),  f17
+    multf   f16,            f8,             f4
     addf    f15,            f17,            f14
     sf      vector-76(r9),  f15
     subf    f27,            f17,            f4
@@ -82,11 +84,17 @@ main:
     sf      M+4,            f4
     sf      V,              f7
     divf    f29,            f28,            f13
+    addf    f30,            f16,            f7
     sf      M+12,           f11
+    sf      V+4,            f16
+
+    addf    f0,            f16,            f30
+    sf      V+8,            f30
+    sf      V+12,           f0
 
     sf      mediaV,         f29
     addf    f8,             f7,             f6
-; descomentar para valorsecuencia>=10
+                                                    ; descomentar para valorsecuencia>=10
 
     ;                                               ; addi    r11,            r10,            10
     ;                                               ; seqi    r11,            r8,             10
@@ -116,7 +124,7 @@ main:
 
     addf    f7,             f6,             f5
     sf      vector-60(r9),  f7
-   
+
     addf    f8,             f7,             f6
     sf      vector-56(r9),  f8
 
