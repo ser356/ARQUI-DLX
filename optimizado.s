@@ -1,6 +1,6 @@
 .data
 valor_inicial: .float 5.0
-tamanho: .word 10
+tamanho: .word 30
 vector: .space 120
 suma: .float 0
 
@@ -22,6 +22,7 @@ main:
     lf      f1,             cuatro
     lf      f0,             valor_inicial
     lw      r8,             tamanho
+
     addi    r9,             r0,             120
 
 
@@ -58,24 +59,28 @@ main:
 
 
     multf   f12,            f4,             f8
-    sf      vector-116(r9), f0                  ; se han introducido aqui para aprovechar el tiempo de calculo de la multiplicacion
+
+    sf      vector-116(r9), f0                      ; se han introducido aqui para aprovechar el tiempo de calculo de la multiplicacion
     sf      vector-112(r9), f0
+
     subf    f13,            f10,            f12
 
     sf      detM,           f13
 
     divf    f8,             f3,             f13
 
+
     multf   f7,             f8,             f20
     sf      M,              f20
 
 
     sf      mediaV,         f29
+
+    sf      detV,           f8
+
     addf    f17,            f14,            f11
-    sf      vector-80(r9),  f17
     multf   f16,            f8,             f4
     addf    f15,            f17,            f14
-    sf      vector-76(r9),  f15
     subf    f27,            f17,            f4
 
     divf    f28,            f27,            f1
@@ -87,19 +92,18 @@ main:
     sf      M+12,           f11
     sf      V+4,            f16
 
-    addf    f0,            f16,            f30
+    addf    f0,             f16,            f30
     sf      V+8,            f30
     sf      V+12,           f0
 
     sf      mediaV,         f29
     addf    f8,             f7,             f6
 
-    sf      detV,           f8
                                                     ; descomentar para valorsecuencia>=10
 
-    ;                                               ; addi    r11,            r10,            10
-    ;                                               ; seqi    r11,            r8,             10
-    ;                                               ; bnez    r11,            fin
+
+    seqi    r11,            r8,             10
+    bnez    r11,            fin
 
 
 
@@ -108,6 +112,11 @@ main:
 
 
 ; Calculamos el resto de los valores de la secuencia
+    sf      vector-80(r9),  f17
+
+    sf      vector-76(r9),  f15
+
+
     addf    f4,             f15,            f17
     sf      vector-72(r9),  f4
 
@@ -116,11 +125,11 @@ main:
 
     addf    f6,             f5,             f4
     sf      vector-64(r9),  f6
-                                                    ; descomentar para valorsecuencia>=15
 
-    ;                                               ; addi    r11,            r10,            10
-    ;                                               ; seqi    r11,            r8,             10
-    ;                                               ; bnez    r11,            fin
+
+
+    seqi    r11,            r8,             15
+    bnez    r11,            fin
 
 
     addf    f7,             f6,             f5
@@ -137,11 +146,10 @@ main:
 
     addf    f11,            f10,            f9
     sf      vector-44(r9),  f11
-                                                    ; descomentar para valorsecuencia>=20
 
-    ;                                               ; addi    r11,            r10,            10
-    ;                                               ; seqi    r11,            r8,             10
-    ;                                               ; bnez    r11,            fin
+
+    seqi    r11,            r8,             20
+    bnez    r11,            fin
 
 
     addf    f12,            f11,            f10
@@ -158,11 +166,10 @@ main:
 
     addf    f16,            f15,            f14
     sf      vector-24(r9),  f16
-                                                    ; descomentar para valorsecuencia>=25
 
-    ;                                               ; addi    r11,            r10,            10
-    ;                                               ; seqi    r11,            r8,             10
-    ;                                               ; bnez    r11,            fin
+
+    seqi    r11,            r8,             25
+    bnez    r11,            fin
 
 
     addf    f17,            f16,            f15
