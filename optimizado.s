@@ -1,6 +1,6 @@
 .data
 valor_inicial: .float 5.0
-tamanho: .word 30
+tamanho: .word 10
 vector: .space 120
 suma: .float 0
 
@@ -18,20 +18,15 @@ uno: .float 1.0
 .text
 .global main
 main:
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;
-                                                    ; Calculo de los primeros 10 elementos de la secuencia
-    lf      f3,             uno                     ; f3=1.0
+    lf      f3,             uno
     lf      f1,             cuatro
-    lf      f0,             valor_inicial           ; f0=5.0
+    lf      f0,             valor_inicial
     lw      r8,             tamanho
-    addi    r9,             r0,             120     ; incrementamos el puntero del vector para poder recorrerlo al completo
-                                                    ; nos podemos saltar el primer valor ya que la memoria esta rellena de 0.0 y este es el valor cero de la secuencia
+    addi    r9,             r0,             120
 
-    sf      vector-116(r9), f0                      ; almacenamos en memoria el valor uno
-    sf      vector-112(r9), f0                      ; segunda posicion del vector a 5
+    sf      vector-116(r9), f0
+    sf      vector-112(r9), f0
     addf    f18,            f0,             f0
-
-; vamos calculando los correspondientes valores de la secuencia y los almacenamos en memoria
 
     sf      vector-108(r9), f18
     addf    f19,            f18,            f0
@@ -39,24 +34,23 @@ main:
     sf      vector-104(r9), f19
     addf    f20,            f19,            f18
 
+
     sf      vector-100(r9), f20
 
-
-
     addf    f4,             f20,            f19
-
-
     sf      vector-96(r9),  f4
+
 
 
     addf    f8,             f20,            f4
     sf      vector-92(r9),  f8
 
 
-
     addf    f11,            f8,             f4
     sf      vector-88(r9),  f11
+    sf      M+8,            f8
 
+    multf   f10,            f20,            f11
 
 
     addf    f14,            f11,            f8
@@ -64,234 +58,121 @@ main:
 
 
 
-    addf    f17,            f14,            f11
-
-; hasta aqui hemos calculado los primeros 10 valores de la secuencia
-
-    addf    f15,            f17,            f14     ; calculamos el valor de la secuencia en 11 nos sirve que este calculado antes
-
-
-    sf      vector-80(r9),  f17                     ; almacenamos en memoria el numero 10 de la secuencia
-
-
-    subf    f27,            f17,            f4      ; calculo de la suma total de la matriz
-
-
-
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;
-
-; OPERACIONES CON MATRICES
-; CALCULO DE LA MATRIZ M
-; CALCULO DE LA MATRIZ V
-; CALCULO DE LA DETERMINANTE DE LA MATRIZ M
-; CALCULO DE LA DETERMINANTE DE LA MATRIZ V
-; CALCULO DE LA MEDIA DE LA MATRIZ M
-; CALCULO DE LA MEDIA DE LA MATRIZ V
-
-    divf    f28,            f27,            f1      ; calculo de la media de la matriz M
-    sf      mediaM,         f28
-    sf      M,              f20
-    sf      M+4,            f4
-
-
-    multf   f10,            f20,            f11     ; calculo diagonal principal
-    sf      M+8,            f8
-    sf      M+12,           f11
-
-    multf   f12,            f4,             f8      ; calculamos diagonal secundaria
-    subf    f13,            f10,            f12     ; calculo de la determinante
+    multf   f12,            f4,             f8
+    subf    f13,            f10,            f12
 
     sf      detM,           f13
 
-
-
-
-    divf    f8,             f3,             f13     ; calculo de la determinante V
+    divf    f8,             f3,             f13
     sf      detV,           f8
 
-
-
-
-
-
-
-
-
-
     divf    f7,             f20,            f13
+    sf      M,              f20
 
-    divf    f29,            f28,            f13     ; calculo de la media de la matriz V
 
-    sf      V,              f7
     sf      mediaV,         f29
-
-
-
-
-
-
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;
-    addi    r11,            r10,            10
-    seqi    r11,            r8,             10
-    bnez    r11,            fin
-
-
-
-; el comportamiento del algoritmo descrito anteriormente es similar a continuacion
-; se calculan los siguientes 5 valores de la secuencia y se almacenan en memoria
-
-    sf      vector-76(r9),  f15
-
-
-    addf    f8,             f15,            f17
-    sf      vector-72(r9),  f8
-
-
-
-    addf    f11,            f8,             f15
-    sf      vector-68(r9),  f11
-
-
-
-    addf    f14,            f11,            f8
-    sf      vector-64(r9),  f14
-
-
-
     addf    f17,            f14,            f11
+    sf      vector-80(r9),  f17
+    addf    f15,            f17,            f14
+    sf      vector-76(r9),  f17
+    subf    f27,            f17,            f4
 
+    divf    f28,            f27,            f1
+    sf      mediaM,         f28
+    sf      M+4,            f4
+    sf      V,              f7                      ; descomentar para valorsecuencia>=10
 
-    addf    f15,            f17,            f14     ; calculamos el valor de la secuencia en  16 nos sirve que este calculado antes
+    ;                                               ; addi    r11,            r10,            10
+    ;                                               ; seqi    r11,            r8,             10
+    ;                                               ; bnez    r11,            fin
 
-    sf      vector-60(r9),  f17                     ; almacenamos en memoria el número 15 de la secuencia
 
 
 
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;
 
-    ;SE     HAN,            CALCULADO,      OTROS,  CINCO,VALORES,DE,LA,SECUENCIA; EL ENUNCIADO PIDE MULTIPLOS DE 5
 
 
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;
+; Calculamos el resto de los valores de la secuencia
+    addf    f4,             f15,            f17
+    sf      vector-72(r9),  f4
 
-    addi    r11,            r10,            10
-    seq     r11,            r8,             15
-    bnez    r11,            fin
+    addf    f5,             f4,             f15
+    sf      vector-68(r9),  f5
 
+    addf    f6,             f5,             f4
+    sf      vector-64(r9),  f6
+                                                    ; descomentar para valorsecuencia>=15
 
+    ;                                               ; addi    r11,            r10,            10
+    ;                                               ; seqi    r11,            r8,             10
+    ;                                               ; bnez    r11,            fin
 
-    sf      vector-56(r9),  f15
 
+    addf    f7,             f6,             f5
+    sf      vector-60(r9),  f7
+    divf    f29,            f28,            f13
+    sf      M+12,           f11
 
-    addf    f8,             f15,            f17
-    sf      vector-52(r9),  f8
+    sf      mediaV,         f29
+    addf    f8,             f7,             f6
+    sf      vector-56(r9),  f8
 
+    addf    f9,             f8,             f7
+    sf      vector-52(r9),  f9
 
+    addf    f10,            f9,             f8
+    sf      vector-48(r9),  f10
 
-    addf    f11,            f8,             f15
-    sf      vector-48(r9),  f11
+    addf    f11,            f10,            f9
+    sf      vector-44(r9),  f11
+                                                    ; descomentar para valorsecuencia>=20
 
+    ;                                               ; addi    r11,            r10,            10
+    ;                                               ; seqi    r11,            r8,             10
+    ;                                               ; bnez    r11,            fin
 
-    addf    f14,            f11,            f8
-    sf      vector-44(r9),  f14
 
-    addf    f17,            f14,            f11
+    addf    f12,            f11,            f10
+    sf      vector-40(r9),  f12
 
-    addf    f15,            f17,            f14     ; calculamos el valor de la secuencia en  21 nos sirve que este calculado antes
+    addf    f13,            f12,            f11
+    sf      vector-36(r9),  f13
 
-    sf      vector-40(r9),  f17                     ; almacenamos en memoria el número 20 de la secuencia
+    addf    f14,            f13,            f12
+    sf      vector-32(r9),  f14
 
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;
+    addf    f15,            f14,            f13
+    sf      vector-28(r9),  f15
 
-; OTROS 5 VALORES DE LA SECUENCIA HAN SIDO CALCULADOS
+    addf    f16,            f15,            f14
+    sf      vector-24(r9),  f16
+                                                    ; descomentar para valorsecuencia>=25
 
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;
+    ;                                               ; addi    r11,            r10,            10
+    ;                                               ; seqi    r11,            r8,             10
+    ;                                               ; bnez    r11,            fin
 
-    addi    r11,            r10,            10
-    seq     r11,            r8,             20
-    bnez    r11,            fin
 
+    addf    f17,            f16,            f15
+    sf      vector-20(r9),  f17
 
+    addf    f18,            f17,            f16
+    sf      vector-16(r9),  f18
 
-    sf      vector-36(r9),  f15                     ; almacenamos en memoria el valor de la secuencia calculado antes
+    addf    f19,            f18,            f17
+    sf      vector-12(r9),  f19
 
+    addf    f20,            f19,            f18
+    sf      vector-8(r9),   f20
 
-    addf    f8,             f15,            f17
-    sf      vector-32(r9),  f8
+    addf    f21,            f20,            f19
+    sf      vector-4(r9),   f21
 
+    addf    f22,            f21,            f20
 
-
-    addf    f11,            f8,             f15
-    sf      vector-28(r9),  f11
-
-
-
-    addf    f14,            f11,            f8
-    sf      vector-24(r9),  f14
-
-
-
-    addf    f17,            f14,            f11
-
-    addf    f15,            f17,            f14     ; calculamos el valor de la secuencia en  26 nos sirve que este calculado antes
-
-    sf      vector-20(r9),  f17                     ; almacenamos en memoria
-
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;
-
-; OTROS 5 VALORES DE LA SECUENCIA HAN SIDO CALCULADOS
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ;
-
-    addi    r11,            r10,            10
-    seq     r11,            r8,             25
-    bnez    r11,            fin
-
-
-    sf      vector-16(r9),  f15
-
-
-    addf    f8,             f15,            f17
-    sf      vector-12(r9),  f8
-
-
-
-    addf    f11,            f8,             f15
-    sf      vector-8(r9),   f11
-
-
-
-    addf    f14,            f11,            f8
-    sf      vector-4(r9),   f14
-
-
-
-    addf    f5,             f14,            f11
-
-    addf    f28,            f5,             f14
-
-
-; end secuencia
-
-
-
-
-
-
-
-
-
-
-
+    addf    f23,            f22,            f21
 
 
 fin:
-
-
-
-    subf    f16,            f28,            f0      ; hay que ser justos en esta vida y calcular el ultimo valor de la secuencia
-    sf      suma,           f16
+    sf      suma,           f23
     trap    0
-
-
-
-
