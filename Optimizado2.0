@@ -139,12 +139,6 @@ main:
     addf    f23,            f22,            f21
     sf      vector(r9),     f23
 
-    ; Para calcular la suma
-    addf    f24,            f23,            f22
-
-    addf    f25,            f24,            f23
-
-
 fin:
-    sf      suma,           f25
+    sf      suma,           f23
     trap    0
