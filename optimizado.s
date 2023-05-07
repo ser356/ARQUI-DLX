@@ -74,13 +74,19 @@ main:
     addf    f17,            f14,            f11
     sf      vector-80(r9),  f17
     addf    f15,            f17,            f14
-    sf      vector-76(r9),  f17
+    sf      vector-76(r9),  f15
     subf    f27,            f17,            f4
 
     divf    f28,            f27,            f1
     sf      mediaM,         f28
     sf      M+4,            f4
-    sf      V,              f7                      ; descomentar para valorsecuencia>=10
+    sf      V,              f7
+    divf    f29,            f28,            f13
+    sf      M+12,           f11
+
+    sf      mediaV,         f29
+    addf    f8,             f7,             f6
+; descomentar para valorsecuencia>=10
 
     ;                                               ; addi    r11,            r10,            10
     ;                                               ; seqi    r11,            r8,             10
@@ -110,10 +116,7 @@ main:
 
     addf    f7,             f6,             f5
     sf      vector-60(r9),  f7
-    divf    f29,            f28,            f13
-    sf      M+12,           f11
-
-    sf      mediaV,         f29
+   
     addf    f8,             f7,             f6
     sf      vector-56(r9),  f8
 
