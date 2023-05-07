@@ -65,7 +65,6 @@ main:
     sf      detM,           f13
 
     divf    f8,             f3,             f13
-    sf      detV,           f8
 
     multf   f7,             f8,             f20
     sf      M,              f20
@@ -83,7 +82,7 @@ main:
     sf      mediaM,         f28
     sf      M+4,            f4
     sf      V,              f7
-    divf    f29,            f28,            f13
+    multf   f29,            f28,            f8
     addf    f30,            f16,            f7
     sf      M+12,           f11
     sf      V+4,            f16
@@ -94,6 +93,8 @@ main:
 
     sf      mediaV,         f29
     addf    f8,             f7,             f6
+
+    sf      detV,           f8
                                                     ; descomentar para valorsecuencia>=10
 
     ;                                               ; addi    r11,            r10,            10
