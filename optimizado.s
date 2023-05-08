@@ -56,10 +56,10 @@ main:
     sf      M+8,            f8
 
     multf   f10,            f20,            f11
-    sf      vector-84(r9),  f14
 
 
     addf    f14,            f11,            f8
+    sf      vector-84(r9),  f14
 
 
 
@@ -84,6 +84,8 @@ main:
     sf      detV,           f8
 
     addf    f17,            f14,            f11
+    sf      vector-80(r9),  f17
+
     multf   f16,            f8,             f4
     sf      V,              f7
 
@@ -119,7 +121,6 @@ main:
 
 
 ; Calculamos el resto de los valores de la secuencia
-    sf      vector-80(r9),  f17
 
     sf      vector-76(r9),  f15
 
