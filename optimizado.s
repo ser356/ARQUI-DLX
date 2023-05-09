@@ -31,7 +31,6 @@ main:
 
     addf    f19,            f18,            f0
 
-    sf      vector-108(r9), f18
 
     sf      vector-104(r9), f19
 
@@ -56,15 +55,18 @@ main:
     sf      M+8,            f8
 
     multf   f10,            f20,            f11
+    sf      vector-108(r9), f18
+
+    addf    f14,            f11,            f8
 
     lf      f1,             cuatro
 
-    addf    f14,            f11,            f8
+    multf   f12,            f4,             f8
+
     sf      vector-84(r9),  f14
 
 
 
-    multf   f12,            f4,             f8
 
     sf      vector-116(r9), f0                      ; se han introducido aqui para aprovechar el tiempo de calculo de la multiplicacion
 

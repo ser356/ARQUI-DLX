@@ -6,6 +6,28 @@ Posteriormente, se calcula otra matriz asociada a la anterior y se calcula su de
 
 El programa pretende estudiar el paralelismo de ejecución de la pipeline segmentada de la arquitectura del procesador DlX.
 
+## Configuración del entorno
+
+En la carpeta utils se encuentra el archivo [SHELL](./utils/utils.sh) que permite compilar el código y ejecutarlo en el simulador de la arquitectura DlX.
+
+Además en la propia carpeta de WINDLX se incluye el fichero [WINDLX.BAT](./utils/WINDLX/WINDLX.BAT) que permite ejecutar el simulador de la arquitectura DlX en Windows.
+
+## Configuración del hardware
+
+El hardware empleado para la realización de este trabajo es el siguiente:
+
+- CPU DlX con 5 etapas de pipeline segmentada.
+
+- 32 registros de propósito general (GPRs) de 32 bits y 32 registros en coma flotante (FPRs) (32 bits) que pueden ser empleados en pares como valores de doble precisión (64 bits).
+- Memoria de direccionamiento por bytes, en modo big endian, con direcciones de 32 bits.
+- Todas las instrucciones son de 32 bits y deben de estar alineadas.
+- Existen unos pocos registros especiales que se pueden transferir desde o hacia los GPRs.
+
+    ![PIPELINE](img/PIPELINE.png)
+
+- El resto de la configuración del hardware es:
+    ![ConsumoCiclos](./img/conf.png)
+
 ## Primera Implementación
 
 Se realizó una primera implementación en con uso de subrutinas para cada uno de los apartados pedidos y el cálculo de la secuencia mediante la iteración en un bucle.
@@ -48,7 +70,9 @@ Por un lado el código se ejecuta en un total de 647 ciclos de reloj.
 
 El ID se ejecutó por 363 instrucciones.
 
-La configuración del hardware es la pedida en el enunciado.
+Si se observa la memoria se verifica el correcto funcionamiento del programa.
+
+![Almacenamiento en memoria](./img/unoptimized/memory.png)
 
 Se incluye a continuación una imagen tanto de las estadísticas completas como del diagrama de ciclos de reloj.
 
@@ -112,7 +136,7 @@ Observando el algoritmo optimizado para el caso de tamaño 30:
 
 Otra optimizacion que hemos realizado es aprovechar los tiempos de espera entre cada operación para realizar otras operaciones
 
-![ConsumoCiclos](./img/unoptimized/ConsumoCiclos.png)
+![ConsumoCiclos](./img/conf.png)
 
 Como podemos ver una suma consume 2 ciclos, pero una multiplicación consume 5, a lo que una division consume 19 ciclos. Este último es un consumo excesivo por lo tanto hemos limitado el uso de las divisiones al maximo. Se ha decidido intercambiar todas las operaciones de división por operaciones de multiplicación, ahorrando una gran cantidad de ciclos. Esto se debe a que es equivalente realizar una multiplicación por 0.25 a una division entre 4 por ejemplo.
 
@@ -120,16 +144,28 @@ Aun habiendo reducido el costo de operaciones matemáticas tenemos una parte imp
 
 Por ello hemos aprovechado este tiempo entre divisiones y multiplicaciones para añadir instrucciones `sf` para que así estas no aumenten los ciclos al realizarlas mas tarde.
 
-### Gráfica de ciclos de reloj
+Si se comprueba el almacenamiento en memoria, se verifica el correcto funcionamiento del programa.
 
-Se ha decidido realizar un estudio de la evolución del rendimiento en función del tamaño de la prueba.
+![Almacenamiento en memoria](./img/optimized/memory.png)
 
-Se ha elegido un tamaño de prueba de 10,15,20,25 y 30 y un valor inicial de 5.
+El total de ciclos obtenidos en este caso es de 169 para los valores de la prueba dados.
+
+![Estadísticas](./img/optimized/stats.png)
+
+### Grafica de ciclos de reloj
+
+Se ha decidido realizar un estudio comparativo de la evolución del rendimiento en función del tamaño de la prueba.
+
+Se ha elegido un tamaño de prueba de 10,15,20,25 y 30 y un valor inicial de 5 para ambos casos.
 
 Se ha elaborado un pequeño script de python que genera un gráfico discreto de los ciclos de reloj en función del tamaño de la prueba.
 
-El script se encuentra en el archivo [plot.py](/utils/plot.py).
+El script se encuentra en el archivo [plot.py](utils/plot.py).
 
-Los gráficos se muestran a continuación:
+![Gráfica de ciclos de reloj](img/grafica.png)
 
-![Gráfica de ciclos de reloj](./img/unoptimized/plot.png)
+> Como podemos observar el código no optimizado tiene un alto número de ciclos de reloj fijos independientemente del tamaño de la prueba, lo que hace que incluso a valores bajos de tamaño tenga un numero elevado de ciclos.\
+> Por otro lado, el código optimizado, tiene un número reducido de éstos ciclos fijos, por lo tanto, no condiciona al rendimiento final del programa.\
+> Si nos fijamos en el multiplicador de la tendencia de los ciclos de reloj, podemos observar que el código no optimizado tiene una tendencia de crecimiento de 4.76 ciclos de reloj por cada unidad de tamaño de prueba, mientras que el código optimizado tiene una tendencia de crecimiento de 16 ciclos de reloj por cada unidad de tamaño de prueba.\
+> Teniendo en cuenta estos valores se tiene un speedup de *3.36*, lo que significa que el código optimizado es 3.36 veces más rápido que el código no optimizado.\
+> Es una medida más exacta que realizar la división de $ciclos_{no optimizado}/ciclos_{optimizado}$ ya que en este caso se tiene en cuenta el crecimiento de los ciclos de reloj en función del tamaño de la prueba.
