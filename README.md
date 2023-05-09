@@ -1,5 +1,7 @@
 # README.md
 
+@ser356 Sergio García Seco
+@t01js Tomás Jiménez Sánchez
 Implementación de una variante de la secuencia de Fibonacci. Tras la secuencia, se calcula una matriz de la que se extrae su determinante y su media.
 
 Posteriormente, se calcula otra matriz asociada a la anterior y se calcula su determinante y su media.

@@ -24,10 +24,13 @@ main:
 
 ; los dos stores seguidos se reordenan para aprovechar el tiempo de calculo de la multiplicacion
 ; calculo de la secuencia hasta 10 terminos
-; se adelantan hasta 3 (10+3)valores de la siguiente secuencia para que el calculo sea optimizado
+; se adelantan hasta 2 (10+3)valores de la siguiente secuencia para que el calculo sea optimizado
 ; ademas los valores 11 y 12 sirven para calcular la media de la secuencia
+; observese en el codigo stores desordenados entre operaciones aritmeticas para aprovechar el
+; paralelismo de la maquina
     addf    f18,            f0,             f0
-    lw      r8,             tamanho
+    lw      r8,             tamanho                 ; no es necesario calcularlo en primera instancia
+                                                    ; se reordena
 
     addf    f19,            f18,            f0
 
@@ -49,7 +52,7 @@ main:
     addf    f8,             f20,            f4
     sf      vector-92(r9),  f8
 
-
+; las operaciones con matrices se realizan nada mas conocerse su valor en la secuencia
     addf    f11,            f8,             f4
     sf      vector-88(r9),  f11
     sf      M+8,            f8
@@ -108,7 +111,7 @@ main:
     sf      V+12,           f2
 
     sf      mediaV,         f29
-    seqi    r11,            r8,             10
+    seqi    r11,            r8,             10      ; se puede calcular el bool a evaluar antes
 
     addf    f8,             f7,             f6
     addf    f4,             f15,            f17
@@ -125,6 +128,9 @@ main:
 
 
 ; Calculamos el resto de los valores de la secuencia
+; observese como las operaciones aritmeticas no se corresponden con los stores
+; esto se debe a que se están adelantando calculos para obtener los 2 valores siguientes
+; de la secuencia que seran utiles en la suma de la secuencia.
 
     sf      vector-80(r9),  f17
 
@@ -145,9 +151,9 @@ main:
     addf    f8,             f7,             f6
     sf      vector-72(r9),  f4
 
-    seqi    r11,            r8,             15
+    seqi    r11,            r8,             15      ; se puede calcular el bool a evaluar antes
 
-    movf    f22,            f8
+    movf    f22,            f8                      ; se copia el registro f8 en f22
     addf    f9,             f8,             f7
 
 ; salto condicional para valores de la secuencia hasta 15
@@ -169,12 +175,11 @@ main:
     addf    f13,            f12,            f11
     sf      vector-56(r9),  f8
 
-    movf    f22,            f13
+    movf    f22,            f13                 ; se copia el registro f8 en f22
     sf      vector-52(r9),  f9
     seqi    r11,            r8,             20
 
     addf    f14,            f13,            f12
-                                                    ; se pueden adelantar hasta 3 valores de la secuencia para que el calculo sea optimizado
     bnez    r11,            fin
 
 
@@ -195,7 +200,7 @@ main:
     addf    f18,            f17,            f16
     sf      vector-36(r9),  f13
 
-    movf    f22,            f18
+    movf    f22,            f18                ; se copia el registro f8 en f22
     sf      vector-32(r9),  f14
     seqi    r11,            r8,             25
 
@@ -221,12 +226,14 @@ main:
 
     addf    f23,            f22,            f21
     sf      vector-16(r9),  f18
-
+; como no se llega aqui tras ningun salto condicional, se calcula el valor de la suma de la secuencia
+; directamente
     subf    f23,            f23,            f0
     sf      suma,           f23
     trap    0
 
 fin:
+; se emplea el f22 de forma común para calcular la suma
     subf    f23,            f22,            f0
     sf      suma,           f23
     trap    0
