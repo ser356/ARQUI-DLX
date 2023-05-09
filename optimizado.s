@@ -101,13 +101,14 @@ main:
     addf    f30,            f16,            f7
     sf      M+12,           f11
 
-    addf    f0,             f16,            f30
+    addf    f2,             f16,            f30
     sf      V+8,            f30
-    sf      V+12,           f0
+    sf      V+12,           f2
 
     sf      mediaV,         f29
     addf    f8,             f7,             f6
     addf    f4,             f15,            f17
+    movf    f22,            f15
 
 ; salto condicional para valores de la secuencia hasta 10
 
@@ -139,7 +140,7 @@ main:
     addf    f7,             f6,             f5
 
     addf    f8,             f7,             f6
-
+    movf    f22,            f8
     addf    f9,             f8,             f7
 
 ; salto condicional para valores de la secuencia hasta 15
@@ -161,6 +162,7 @@ main:
 
     addf    f12,            f11,            f10
     addf    f13,            f12,            f11
+    movf    f22,            f13
     addf    f14,            f13,            f12
                                                     ; se pueden adelantar hasta 3 valores de la secuencia para que el calculo sea optimizado
     seqi    r11,            r8,             20
@@ -183,6 +185,7 @@ main:
     sf      vector-24(r9),  f16
     addf    f17,            f16,            f15
     addf    f18,            f17,            f16
+    movf    f22,            f18
     addf    f19,            f18,            f17
     seqi    r11,            r8,             25
     bnez    r11,            fin
@@ -206,8 +209,11 @@ main:
     addf    f22,            f21,            f20
 
     addf    f23,            f22,            f21
-
+    subf    f23,f23,f0
+    sf      suma,f23
+    trap 0
 
 fin:
+    subf    f23,            f22,            f0
     sf      suma,           f23
     trap    0
