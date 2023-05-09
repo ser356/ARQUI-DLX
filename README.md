@@ -102,7 +102,7 @@ Tiene la forma que habiamos puesto antes en el caso de estar hablando de una suc
 
 Otra optimizacion que hemos realizado es aprovechar los tiempos de espera entre cada operación para realizar otras operaciones
 
-![ConsumoCiclos](https://github.com/ser356/ARQUI-DLX/assets/81762786/e625917a-7e88-4b0f-ae64-c0872b209e4e)
+![ConsumoCiclos](./img/unoptimized/ConsumoCiclos.png)
 
 
 Como podemos ver una suma consume 2 ciclos, pero una multiplicacion consume 5, por lo tanto y como explicamos anteriormente tras cambiar todas las operaciones de division por unas de multiplicacion aun asi tenemos una parte importante del tiempo que no estamos realizando ningun instrucción, ya que esperamos a que acabe de realizarse la multiplicacion para seguir.
