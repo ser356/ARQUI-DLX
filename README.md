@@ -6,61 +6,83 @@ Posteriormente, se calcula otra matriz asociada a la anterior y se calcula su de
 
 El programa pretende estudiar el paralelismo de ejecución de la pipeline segmentada de la arquitectura del procesador DlX.
 
-## Memoria
+## Primera Implementación
 
-La memoria del procesador DlX es una memoria segmentada. La memoria se divide en 4 segmentos:
+Se realizó una primera implementación en con uso de subrutinas para cada uno de los apartados pedidos y el cálculo de la secuencia mediante la iteración en un bucle.
+Realmente fue la manera menos eficiente de realizar el calculo puesto que por cada iteración tan sólo se realizaba un cálculo de la secuencia y se almacenaba en el vector dado.
 
-## Pipeline segmentada
+Además cada uno de los cálculos de la secuencia se realizaba en una subrutina diferente, lo que provocaba que se tuviera que realizar un salto a la subrutina y posteriormente un retorno a la subrutina principal.
 
-La pipeline segmentada del procesador DlX es una pipeline de 5 etapas. Cada etapa tiene un nombre y un segmento de memoria asociado. Los nombres de las etapas son:
+Se incluye a continuación la implementación del bucle que realizaba el cálculo de la secuencia.
 
-* `IF`: Etapa de obtención de instrucciones. Obtiene las instrucciones del segmento de código.
+```assembly
+loop:                                                         ; inicio del bucle
 
-* `ID`: Etapa de decodificación de instrucciones. Decodifica las instrucciones y obtiene los operandos.
+    addi    r9,                     r9,             4        
+    lf      f2,                     vector-8(r9)
+    lf      f3,                     vector-4(r9)
+    addf    f4,                     f2,             f3       
+    sf      vector(r9),             f4                       
+    addi    r10,                    r10,            1        
+    addf    f5,                     f5,             f4       
+    sf      suma,                   f5                       
+    seq     r11,                    r10,            r8       
+    bnez    r11,                    calculoMatriz            
+    j       loop                                            ; iteramos
 
-* `EX`: Etapa de ejecución de instrucciones. Ejecuta las instrucciones.
+```
 
-* `MEM`: Etapa de acceso a memoria. Accede a la memoria para leer o escribir datos.
+Se puede observar que computacionalmente es muy costoso realizar un calculo de la secuencia empleando un bucle que tan solo calcule un valor de la secuencia por iteración; sobre todo teniendo en cuenta que el procesador tiene que interpretar instrucciones de salto condicional, carga en memoria,almacenamiento, etc.
 
-* `WB`: Etapa de escritura de resultados. Escribe los resultados en los registros.
+Imaginemos que se quieren calcular treinta valores de la secuencia. Este bucle realizará un total de 28 comprobaciones, de las cuales tomará 27. Además, por cada iteración se realizará un salto a la subrutina y un retorno a la subrutina principal.
 
-## Registros
+Realmente se está desaprovechando el paralelismo de ejecución de la pipeline segmentada del procesador DlX.
 
-El procesador DlX tiene 16 registros para enteros. Los registros se dividen en 2 grupos, sean de propósito general o de acumulación:
+El codigo completo de la primera implementación se encuentra en el archivo [UNOPTIMIZED.s](UNOPTIMIZED.s).
 
-* `R0`: Registro de acumulación. Se utiliza para almacenar resultados intermedios.
-* `R1-R15`: Registros de propósito general. Se utilizan para almacenar operandos y resultados.
-* `HI`: Registro de acumulación de 32 bits. Se utiliza para almacenar resultados intermedios de operaciones de 32 bits.
-* `PC`: Registro de programa. Se utiliza para almacenar la dirección de la siguiente instrucción a ejecutar.
-* `IR`: Registro de instrucción. Se utiliza para almacenar la instrucción que se está ejecutando.
-* `MAR`: Registro de dirección de memoria. Se utiliza para almacenar la dirección de memoria de la que se va a leer o escribir.
-* `MDR`: Registro de datos de memoria. Se utiliza para almacenar los datos que se van a escribir en memoria o los datos que se han leído de memoria.
-* `PSR`: Registro de estado del procesador. Se utiliza para almacenar el estado del procesador.
-* `SP`: Registro de pila. Se utiliza para almacenar la dirección de la cima de la pila.
-* `LR`: Registro de enlace. Se utiliza para almacenar la dirección de retorno de una subrutina.
+## Estadísticas
 
-Registros de punto flotante de simple precisión
+El resultado de la ejecución del programa se muestra a continuación:
 
-El procesador DlX tiene 16 registros de punto flotante. Los registros de punto flotante se identifican con un número de 4 bits. Los registros de punto flotante se dividen en 2 grupos:
+Por un lado el código se ejecuta en un total de 647 ciclos de reloj.
 
-* `F0`: Registro de acumulación de punto flotante. Se utiliza para almacenar resultados intermedios.
-* `F1-F15`: Registros de propósito general de punto flotante. Se utilizan para almacenar operandos y resultados.
-* `FHI`: Registro de acumulación de punto flotante de 32 bits. Se utiliza para almacenar resultados intermedios de operaciones de 32 bits.
-* `FLO`: Registro de acumulación de punto flotante de 32 bits. Se utiliza para almacenar resultados intermedios de operaciones de 32 bits.
-* `FCSR`: Registro de estado de punto flotante. Se utiliza para almacenar el estado de punto flotante.
-* `FIR`: Registro de instrucción de punto flotante. Se utiliza para almacenar la instrucción de punto flotante que se está ejecutando.
+El ID se ejecutó por 363 instrucciones.
 
-Registros de punto flotante de doble precisión:
+La configuración del hardware es la pedida en el enunciado.
 
-* `D0`: Registro de acumulación de punto flotante de doble precisión. Se utiliza para almacenar resultados intermedios.
-* `D1-D15`: Registros de propósito general de punto flotante de doble precisión. Se utilizan para almacenar operandos y resultados.
-* `DHI`: Registro de acumulación de punto flotante de doble precisión de 64 bits. Se utiliza para almacenar resultados intermedios de operaciones de 64 bits.
-* `DLO`: Registro de acumulación de punto flotante de doble precisión de 64 bits. Se utiliza para almacenar resultados intermedios de operaciones de 64 bits.
+Se incluye a continuación una imagen tanto de las estadísticas completas como del diagrama de ciclos de reloj.
 
-## Instrucciones
+![Estadísticas](./img/unoptimized/stats.png)
 
-El juego de instrucciones del procesador DLX es una versión reducida de la arquitectura MIPS. 
+Para el diagrama se incluye una animación en formato GIF, puesto que la imagen es demasiado grande debido a las paradas de la CPU como para incluirla en el documento.
 
-### END OF README
+![Diagrama de ciclos de reloj](./img/unoptimized/ccd.gif )
 
-Teniendo en cuenta las anteriores premisas, se proporcionan dos ficheros, uno sin planificación ni optimización y otro con planificación y optimización.
+Tal y como se puede observar en el diagrama de ciclos de reloj, las operaciones de división retienen al procesador por completo y al no haber reordenación de instrucciones de forma intencionada no se está explotando el paralelismo que ofrece la pipeline segmentada (Se estan sufriendo 234 stalls+paradas totales de operación aritmética por división).
+
+Observando las estadísticas y tal y como se menciona antes hay también 28 paradas por salto.
+
+En resumen 282 paradas hacen que el código no sea eficiente ni explote el paralelismo haciendo que tarde hasta 6 segundos en completar su cometido.
+
+## Segunda Implementación
+
+Para la segunda implementación se ha realizado una investigación más exhaustiva de las posibles vías de hacer el código más eficiente empleando propiedades de las matrices, propiedades de determinantes y propiedades de sucesiones aplicadas a la sucesión de Fibonacci tal y como se describirá a continuación.
+
+### Propiedades de las matrices y determinantes
+
+Siendo k escalar y A y B matrices cuadradas de orden n, se cumple que:
+
+* $det(B)= det(k*A) = k^n det(A)$
+
+Si se tiene en cuenta que la matriz asociada V se obtiene a partir de dividir por el determinante de la matriz A, y se asume que ese es el escalar por el que se obtiene la matriz V, se puede calcular el determinante de la matriz V de la siguiente manera:
+
+* $\frac{1}{det(A)}=k$
+
+* $k^n = (1/det(A))^2 = det(A)^-2$
+
+* $det(V) = det(A)^-2* det(A) = det(A)^-1$
+
+Se cumple que para toda matriz V asociada a una matriz A, el determinante de V es el inverso del determinante de A.
+
+### Propiedades de la sucesión de Fibonacci
+
