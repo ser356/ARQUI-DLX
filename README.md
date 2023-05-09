@@ -2,6 +2,7 @@
 
 @ser356 Sergio García Seco
 @t01js Tomás Jiménez Sánchez
+
 Implementación de una variante de la secuencia de Fibonacci. Tras la secuencia, se calcula una matriz de la que se extrae su determinante y su media.
 
 Posteriormente, se calcula otra matriz asociada a la anterior y se calcula su determinante y su media.
@@ -137,7 +138,7 @@ Observando el algoritmo optimizado para el caso de tamaño 30:
     sf      suma,           f23
 ```
 
-Otra optimizacion que hemos realizado es aprovechar los tiempos de espera entre cada operación para realizar otras operaciones
+Otra optimizacion que hemos realizado es aprovechar los tiempos de espera entre cada operación para realizar otras operaciones.
 
 ![ConsumoCiclos](./img/conf.png)
 
@@ -153,6 +154,10 @@ Si se comprueba el almacenamiento en memoria, se verifica el correcto funcionami
 
 El total de ciclos obtenidos en este caso es de 169 para los valores de la prueba dados.
 
+El resultado de la optimización muestra la explotación del paralelismo de manera clara.
+
+![Estadísticas](./img/optimized/ccd.png)
+
 ![Estadísticas](./img/optimized/stats.png)
 
 ### Grafica de ciclos de reloj
@@ -164,6 +169,8 @@ Se ha elegido un tamaño de prueba de 10,15,20,25 y 30 y un valor inicial de 5 p
 Se ha elaborado un pequeño script de python que genera un gráfico discreto de los ciclos de reloj en función del tamaño de la prueba.
 
 El script se encuentra en el archivo [plot.py](utils/plot.py).
+
+<div style="page-break-after: always;"></div>
 
 ![Gráfica de ciclos de reloj](img/grafica.png)
 
