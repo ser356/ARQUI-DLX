@@ -18,10 +18,7 @@ uno: .float 1.0
 .text
 .global main
 main:
-    lf      f3,             uno
-    lf      f1,             cuatro
     lf      f0,             valor_inicial
-    lw      r8,             tamanho
 
     addi    r9,             r0,             120     ; puntero al vector 120=30*4 podemos desplazarnos por todo el vector de un salto
 
@@ -30,6 +27,8 @@ main:
 ; se adelantan hasta 3 (10+3)valores de la siguiente secuencia para que el calculo sea optimizado
 ; ademas los valores 11 y 12 sirven para calcular la media de la secuencia
     addf    f18,            f0,             f0
+    lw      r8,             tamanho
+
     addf    f19,            f18,            f0
 
     sf      vector-108(r9), f18
@@ -38,6 +37,7 @@ main:
 
 
     addf    f20,            f19,            f18
+    lf      f3,             uno
 
     addf    f4,             f20,            f19
 
@@ -57,6 +57,7 @@ main:
 
     multf   f10,            f20,            f11
 
+    lf      f1,             cuatro
 
     addf    f14,            f11,            f8
     sf      vector-84(r9),  f14
