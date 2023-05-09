@@ -8,7 +8,7 @@ El programa pretende estudiar el paralelismo de ejecución de la pipeline segmen
 
 ## Memoria
 
-La memoria del procesador DlX es una memoria segmentada. Cada segmento tiene un tamaño de 2^16 bytes. La memoria se divide en 4 segmentos de 2^16 bytes cada uno. Cada segmento tiene un nombre y una dirección de inicio. Los nombres de los segmentos son:
+La memoria del procesador DlX es una memoria segmentada. La memoria se divide en 4 segmentos:
 
 ## Pipeline segmentada
 
