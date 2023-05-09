@@ -18,16 +18,16 @@ Se incluye a continuación la implementación del bucle que realizaba el cálcul
 ```assembly
 loop:                                                         ; inicio del bucle
 
-    addi    r9,                     r9,             4        
+    addi    r9,                     r9,             4
     lf      f2,                     vector-8(r9)
     lf      f3,                     vector-4(r9)
-    addf    f4,                     f2,             f3       
-    sf      vector(r9),             f4                       
-    addi    r10,                    r10,            1        
-    addf    f5,                     f5,             f4       
-    sf      suma,                   f5                       
-    seq     r11,                    r10,            r8       
-    bnez    r11,                    calculoMatriz            
+    addf    f4,                     f2,             f3
+    sf      vector(r9),             f4
+    addi    r10,                    r10,            1
+    addf    f5,                     f5,             f4
+    sf      suma,                   f5
+    seq     r11,                    r10,            r8
+    bnez    r11,                    calculoMatriz
     j       loop                                            ; iteramos
 
 ```
@@ -56,7 +56,7 @@ Se incluye a continuación una imagen tanto de las estadísticas completas como 
 
 Para el diagrama se incluye una animación en formato GIF, puesto que la imagen es demasiado grande debido a las paradas de la CPU como para incluirla en el documento.
 
-![Diagrama de ciclos de reloj](./img/unoptimized/ccd.gif )
+![Diagrama de ciclos de reloj](./img/unoptimized/ccd.gif)
 
 Tal y como se puede observar en el diagrama de ciclos de reloj, las operaciones de división retienen al procesador por completo y al no haber reordenación de instrucciones de forma intencionada no se está explotando el paralelismo que ofrece la pipeline segmentada (Se estan sufriendo 234 stalls+paradas totales de operación aritmética por división).
 
@@ -72,41 +72,64 @@ Para la segunda implementación se ha realizado una investigación más exhausti
 
 Siendo k escalar y A y B matrices cuadradas de orden n, se cumple que:
 
-* $det(B)= det(k*A) = k^n det(A)$
+- $det(B)= det(k*A) = k^n det(A)$
 
 Si se tiene en cuenta que la matriz asociada V se obtiene a partir de dividir por el determinante de la matriz A, y se asume que ese es el escalar por el que se obtiene la matriz V, se puede calcular el determinante de la matriz V de la siguiente manera:
 
-* $\frac{1}{det(A)}=k$
+- $\frac{1}{det(A)}=k$
 
-* $k^n = (1/det(A))^2 = det(A)^-2$
+- $k^n = (1/det(A))^2 = det(A)^-2$
 
-* $det(V) = det(A)^-2* det(A) = det(A)^-1$
+- $det(V) = det(A)^-2* det(A) = det(A)^-1$
 
 Se cumple que para toda matriz V asociada a una matriz A, el determinante de V es el inverso del determinante de A.
 
 ### Propiedades de la sucesión de Fibonacci
-Para calcular la sucesion de fibonacci debiamos prescindir de los bucles debido a que estos tienen un alto consumo ciclos de reloj, por lo tanto la forma mas eficiente adaptar el codigo a las necesidades que teniamos, para ello realizamos el calculo de los 30 numeros de la sucesion de finonacci linea a linea.
+
+Para calcular la sucesion de Fibonacci debíamos prescindir de los bucles debido a que estos tienen un alto consumo ciclos de reloj, por lo tanto la forma mas eficiente adaptar el codigo a las necesidades que teniamos, para ello realizamos el calculo de los 30 numeros de la sucesion de finonacci linea a linea.
 
 Para controlar si el tamaño de la prueba no es 30, colocamos branches que acabarán el codigo dependiendo del tamaño indicado. Esto aumenta los ciclos de reloj debido a que son mas instrucciones que deben ser procesadas, por otro lado hacemos esto ya que de otra forma el codigo no podría usarse para valores distintos de 30.
 
 Para aumentar un poco mas la eficiencia hacemos uso de la progresion aritmetica con alguna modificacion para nuestro caso de uso
 
-* $∑_(n=i)^n = F_i =F_(n+2)-1$
+- $∑_(n=i)^n = F_i =F_(n+2)-1$
 
-Con esa formula somos capaces de calcular la suma de todos los numeros de la sucesion de fibonacci, por lo tanto, nos ahorramos una gran cantidad de operaciones de suma, reduciendolo todo a una unica suma.
-Ahora bien, esta ecuacion proviene de la siguiente:
+Con esa fórmula somos capaces de calcular la suma de todos los numeros de la sucesión de Fibonacci, por lo tanto, nos ahorramos una gran cantidad de operaciones de suma, reduciéndolo todo a una única suma.
+Ahora bien, esta ecuación proviene de la siguiente:
 
-* $∑_(n=i)^n = F_i =F_(n+2)-F_2$
+- $∑_(n=i)^n = F_i =F_(n+2)-F_2$
 
-Tiene la forma que habiamos puesto antes en el caso de estar hablando de una succesion de fibonacci que empezara en el 1, sin embargo en nuestro caso, F2 es 5, el valor inicial por lo tanto el valor de la suma total será F23 para el caso de tamaño 30.
+Tiene la forma que habíamos puesto antes en el caso de estar hablando de una sucesión de Fibonacci que empezara en el 0..1, sin embargo en nuestro caso, F2 es 5 valor inicial por lo tanto el valor de la suma total será F32 (número de secuencia, registro f23) - valor inicial para el caso de tamaño 30.
+
+Observando el algoritmo optimizado para el caso de tamaño 30:
+
+```assembly
+    addf    f23,            f22,            f21
+    ...
+    subf    f23,            f22,            f0
+    sf      suma,           f23
+```
 
 Otra optimizacion que hemos realizado es aprovechar los tiempos de espera entre cada operación para realizar otras operaciones
 
 ![ConsumoCiclos](./img/unoptimized/ConsumoCiclos.png)
 
+Como podemos ver una suma consume 2 ciclos, pero una multiplicación consume 5, a lo que una division consume 19 ciclos. Este último es un consumo excesivo por lo tanto hemos limitado el uso de las divisiones al maximo. Se ha decidido intercambiar todas las operaciones de división por operaciones de multiplicación, ahorrando una gran cantidad de ciclos. Esto se debe a que es equivalente realizar una multiplicación por 0.25 a una division entre 4 por ejemplo.
 
-Como podemos ver una suma consume 2 ciclos, pero una multiplicacion consume 5, a lo que una division consume 19 ciclos. Este ultimo es un consumo excesivo por lo tanto hemos limitado el uso de las divisiones al maximo. Por lo tanto decidimos intercambiar todas las operaciones de division por operaciones de multiplicacion, ahorrando una gran cantidad de ciclos, esto es debido a que es lo mismo realizar una multiplicacion por 0.25 a una division entre 4 por ejemplo.
+Aun habiendo reducido el costo de operaciones matemáticas tenemos una parte importante del tiempo que no estamos realizando ningun instrucción, ya que esperamos a que acabe de realizarse la multiplicación para seguir.
 
-Aun habiendo reducido el costo de operaciones matematicas tenemos una parte importante del tiempo que no estamos realizando ningun instrucción, ya que esperamos a que acabe de realizarse la multiplicacion para seguir.
+Por ello hemos aprovechado este tiempo entre divisiones y multiplicaciones para añadir instrucciones `sf` para que así estas no aumenten los ciclos al realizarlas mas tarde.
 
-Por ello hemos aprovechado este tiempo entre divisiones y multiplicaciones para añadir instrucciones Sf para que asi estas no aumenten los ciclos al realizarlas mas tarde
+### Gráfica de ciclos de reloj
+
+Se ha decidido realizar un estudio de la evolución del rendimiento en función del tamaño de la prueba.
+
+Se ha elegido un tamaño de prueba de 10,15,20,25 y 30 y un valor inicial de 5.
+
+Se ha elaborado un pequeño script de python que genera un gráfico discreto de los ciclos de reloj en función del tamaño de la prueba.
+
+El script se encuentra en el archivo [plot.py](/utils/plot.py).
+
+Los gráficos se muestran a continuación:
+
+![Gráfica de ciclos de reloj](./img/unoptimized/plot.png)
