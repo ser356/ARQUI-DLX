@@ -127,7 +127,6 @@ main:
     sf      vector-80(r9),  f17
 
 
-; solo se calculan dos porque se han adelantado tres anteriormente
 
     addf    f5,             f4,             f15
     sf      vector-68(r9),  f5
