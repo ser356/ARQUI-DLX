@@ -26,6 +26,7 @@ El hardware empleado para la realización de este trabajo es el siguiente:
     ![PIPELINE](img/PIPELINE.png)
 
 - El resto de la configuración del hardware es:
+
     ![ConsumoCiclos](./img/conf.png)
 
 ## Primera Implementación
