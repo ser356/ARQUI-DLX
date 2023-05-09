@@ -26,8 +26,10 @@ main:
 ; calculo de la secuencia hasta 10 terminos
 ; se adelantan hasta 3 (10+3)valores de la siguiente secuencia para que el calculo sea optimizado
 ; ademas los valores 11 y 12 sirven para calcular la media de la secuencia
+
+
     addf    f18,            f0,             f0
-    lw      r8,             tamanho
+    lw      r8,             tamanho                 ; no hace falta cargarla inmediatamente por lo que se puede reordenar
 
     addf    f19,            f18,            f0
 
@@ -35,6 +37,10 @@ main:
 
     sf      vector-104(r9), f19
 
+; OPMAT SE REALIZA DE MANERA INMEDIATA NADA MAS CONOCERSE EL VALOR DE LA SECUENCIA
+; SE APROVECHA EL TIEMPO DE CALCULO DE LA MULTIPLICACION PARA REALIZAR LOS STORES
+; DE LOS VALORES DE LA SECUENCIA
+; DE ESTA MANERA SE APROVECHA EL TIEMPO DE CALCULO DE LA MULTIPLICACION
 
     addf    f20,            f19,            f18
     lf      f3,             uno
@@ -57,7 +63,6 @@ main:
 
     multf   f10,            f20,            f11
 
-    lf      f1,             cuatro
 
     addf    f14,            f11,            f8
     sf      vector-84(r9),  f14
@@ -66,7 +71,6 @@ main:
 
     multf   f12,            f4,             f8
 
-    sf      vector-116(r9), f0                      ; se han introducido aqui para aprovechar el tiempo de calculo de la multiplicacion
 
     subf    f13,            f10,            f12
 
@@ -106,11 +110,16 @@ main:
     sf      V+12,           f2
 
     sf      mediaV,         f29
+
+; EL BOOL QUE SE EVALUA SE PUEDE CALCULAR ANTES
+
     seqi    r11,            r8,             10
 
+; SE PUEDE ADELANTAR HASTA 2 VALORES DE LA SIGUIENTE SECUENCIA PARA QUE EL CALCULO SEA OPTIMIZADO
     addf    f8,             f7,             f6
     addf    f4,             f15,            f17
     movf    f22,            f15
+                                                    ; SE MUEVE EL VALOR DE LA SUMA A UN REGISTRO COMUN PARA CONTINUAR CON EL CALCULO
 
 ; salto condicional para valores de la secuencia hasta 10
 
@@ -119,7 +128,10 @@ main:
 
 
 
-
+; DE LA MISMA MANERA SE PUEDE COMPROBAR QUE LOS STORES NO SE CORRESPONDEN CON LOS VALORES DE LA SECUENCIA CALCULADOS
+; LO QUE INDICA QUE SE ESTÁN ADELANTANDO LOS CALCULOS DE LA SIGUIENTE SECUENCIA
+; (sin embargo no lo hemos realizado en todo el codigo porque se puede perder el puntero del branch y no se puede calcular el salto condicional)
+; o porque realmente no se estaba consiguiendo optimizar el codigo
 
 
 ; Calculamos el resto de los valores de la secuencia
@@ -135,7 +147,6 @@ main:
     sf      vector-64(r9),  f6
 
 
-; se adelantan 3 de la siguiente
     addf    f7,             f6,             f5
     sf      vector-76(r9),  f15
 
@@ -145,7 +156,7 @@ main:
 
     seqi    r11,            r8,             15
 
-    movf    f22,            f8
+    movf    f22,            f8                      ; SE MUEVE EL VALOR DE LA SUMA A UN REGISTRO COMUN PARA CONTINUAR CON EL CALCULO
     addf    f9,             f8,             f7
 
 ; salto condicional para valores de la secuencia hasta 15
@@ -169,10 +180,10 @@ main:
 
     movf    f22,            f13
     sf      vector-52(r9),  f9
+
     seqi    r11,            r8,             20
 
     addf    f14,            f13,            f12
-                                                    ; se pueden adelantar hasta 3 valores de la secuencia para que el calculo sea optimizado
     bnez    r11,            fin
 
 
@@ -221,7 +232,7 @@ main:
     sf      vector-16(r9),  f18
 
     subf    f23,            f23,            f0
-    sf      suma,           f23
+    sf      suma,           f23                     
     trap    0
 
 fin:
