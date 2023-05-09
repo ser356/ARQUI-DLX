@@ -105,6 +105,8 @@ Otra optimizacion que hemos realizado es aprovechar los tiempos de espera entre 
 ![ConsumoCiclos](./img/unoptimized/ConsumoCiclos.png)
 
 
-Como podemos ver una suma consume 2 ciclos, pero una multiplicacion consume 5, por lo tanto y como explicamos anteriormente tras cambiar todas las operaciones de division por unas de multiplicacion aun asi tenemos una parte importante del tiempo que no estamos realizando ningun instrucción, ya que esperamos a que acabe de realizarse la multiplicacion para seguir.
+Como podemos ver una suma consume 2 ciclos, pero una multiplicacion consume 5, a lo que una division consume 19 ciclos. Este ultimo es un consumo excesivo por lo tanto hemos limitado el uso de las divisiones al maximo. Por lo tanto decidimos intercambiar todas las operaciones de division por operaciones de multiplicacion, ahorrando una gran cantidad de ciclos, esto es debido a que es lo mismo realizar una multiplicacion por 0.25 a una division entre 4 por ejemplo.
+
+Aun habiendo reducido el costo de operaciones matematicas tenemos una parte importante del tiempo que no estamos realizando ningun instrucción, ya que esperamos a que acabe de realizarse la multiplicacion para seguir.
 
 Por ello hemos aprovechado este tiempo entre divisiones y multiplicaciones para añadir instrucciones Sf para que asi estas no aumenten los ciclos al realizarlas mas tarde
