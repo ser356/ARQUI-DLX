@@ -85,4 +85,26 @@ Si se tiene en cuenta que la matriz asociada V se obtiene a partir de dividir po
 Se cumple que para toda matriz V asociada a una matriz A, el determinante de V es el inverso del determinante de A.
 
 ### Propiedades de la sucesión de Fibonacci
+Para calcular la sucesion de fibonacci debiamos prescindir de los bucles debido a que estos tienen un alto consumo ciclos de reloj, por lo tanto la forma mas eficiente adaptar el codigo a las necesidades que teniamos, para ello realizamos el calculo de los 30 numeros de la sucesion de finonacci linea a linea.
 
+Para controlar si el tamaño de la prueba no es 30, colocamos branches que acabarán el codigo dependiendo del tamaño indicado. Esto aumenta los ciclos de reloj debido a que son mas instrucciones que deben ser procesadas, por otro lado hacemos esto ya que de otra forma el codigo no podría usarse para valores distintos de 30.
+
+Para aumentar un poco mas la eficiencia hacemos uso de la progresion aritmetica con alguna modificacion para nuestro caso de uso
+
+* $∑_(n=i)^n = F_i =F_(n+2)-1$
+
+Con esa formula somos capaces de calcular la suma de todos los numeros de la sucesion de fibonacci, por lo tanto, nos ahorramos una gran cantidad de operaciones de suma, reduciendolo todo a una unica suma.
+Ahora bien, esta ecuacion proviene de la siguiente:
+
+* $∑_(n=i)^n = F_i =F_(n+2)-F_2$
+
+Tiene la forma que habiamos puesto antes en el caso de estar hablando de una succesion de fibonacci que empezara en el 1, sin embargo en nuestro caso, F2 es 10, por lo tanto el valor de la suma total será F23 para el caso de tamaño 30.
+
+Otra optimizacion que hemos realizado es aprovechar los tiempos de espera entre cada operación para realizar otras operaciones
+
+![ConsumoCiclos](https://github.com/ser356/ARQUI-DLX/assets/81762786/e625917a-7e88-4b0f-ae64-c0872b209e4e)
+
+
+Como podemos ver una suma consume 2 ciclos, pero una multiplicacion consume 5, por lo tanto y como explicamos anteriormente tras cambiar todas las operaciones de division por unas de multiplicacion aun asi tenemos una parte importante del tiempo que no estamos realizando ningun instrucción, ya que esperamos a que acabe de realizarse la multiplicacion para seguir.
+
+Por ello hemos aprovechado este tiempo entre divisiones y multiplicaciones para añadir instrucciones Sf para que asi estas no aumenten los ciclos al realizarlas mas tarde
