@@ -123,11 +123,9 @@ main:
 
 ; Calculamos el resto de los valores de la secuencia
 
-    sf      vector-76(r9),  f15
 
 
-    sf      vector-72(r9),  f4
-                                                    ; solo se calculan dos porque se han adelantado tres anteriormente
+; solo se calculan dos porque se han adelantado tres anteriormente
 
     addf    f5,             f4,             f15
     sf      vector-68(r9),  f5
@@ -138,8 +136,12 @@ main:
 
 ; se adelantan 3 de la siguiente
     addf    f7,             f6,             f5
+    sf      vector-76(r9),  f15
+
 
     addf    f8,             f7,             f6
+    sf      vector-72(r9),  f4
+
     movf    f22,            f8
     addf    f9,             f8,             f7
 
@@ -148,11 +150,8 @@ main:
     bnez    r11,            fin
 
 
-    sf      vector-60(r9),  f7
 
-    sf      vector-56(r9),  f8
 
-    sf      vector-52(r9),  f9
 
     addf    f10,            f9,             f8
     sf      vector-48(r9),  f10
@@ -161,8 +160,14 @@ main:
     sf      vector-44(r9),  f11
 
     addf    f12,            f11,            f10
+    sf      vector-60(r9),  f7
+
     addf    f13,            f12,            f11
+    sf      vector-56(r9),  f8
+
     movf    f22,            f13
+    sf      vector-52(r9),  f9
+
     addf    f14,            f13,            f12
                                                     ; se pueden adelantar hasta 3 valores de la secuencia para que el calculo sea optimizado
     seqi    r11,            r8,             20
@@ -170,13 +175,10 @@ main:
 
 
 
-    sf      vector-40(r9),  f12
 
 
-    sf      vector-36(r9),  f13
 
 
-    sf      vector-32(r9),  f14
 
     addf    f15,            f14,            f13
     sf      vector-28(r9),  f15
@@ -184,18 +186,22 @@ main:
     addf    f16,            f15,            f14
     sf      vector-24(r9),  f16
     addf    f17,            f16,            f15
+    sf      vector-40(r9),  f12
+
     addf    f18,            f17,            f16
+    sf      vector-36(r9),  f13
+
     movf    f22,            f18
+    sf      vector-32(r9),  f14
+
     addf    f19,            f18,            f17
     seqi    r11,            r8,             25
     bnez    r11,            fin
 
 
 
-    sf      vector-20(r9),  f17
 
 
-    sf      vector-16(r9),  f18
 
 
     sf      vector-12(r9),  f19
@@ -207,11 +213,14 @@ main:
     sf      vector-4(r9),   f21
 
     addf    f22,            f21,            f20
+    sf      vector-20(r9),  f17
 
     addf    f23,            f22,            f21
-    subf    f23,f23,f0
-    sf      suma,f23
-    trap 0
+    sf      vector-16(r9),  f18
+
+    subf    f23,            f23,            f0
+    sf      suma,           f23
+    trap    0
 
 fin:
     subf    f23,            f22,            f0
