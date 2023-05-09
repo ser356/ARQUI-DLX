@@ -102,7 +102,11 @@ Siendo k escalar y A y B matrices cuadradas de orden n, se cumple que:
 
 - $det(B)= det(k*A) = k^n det(A)$
 
-Si se tiene en cuenta que la matriz asociada V se obtiene a partir de dividir por el determinante de la matriz A, y se asume que ese es el escalar por el que se obtiene la matriz V, se puede calcular el determinante de la matriz V de la siguiente manera:
+- Esta propiedad verifica que no es necesario manejar la excepción de dividir por cero puesto que el valor de entrada siempre es positivo y dado que el determinante de la matriz A para la secuencia es positivo, el determinante de la matriz A' formado por $det(A')=det(k*A) = k^n det(A)$ también lo será.
+- Siendo k valor de entrada : $k=valorinicial$, sustituyendo:
+  - $det(A')=det(k*A) = k^n det(A) = valorinicial^2 det(A)$
+
+Del mismo modo, si se tiene en cuenta que la matriz asociada V se obtiene a partir de dividir por el determinante de la matriz A, y se asume que ese es el escalar por el que se obtiene la matriz V, se puede calcular el determinante de la matriz V de la siguiente manera:
 
 - $\frac{1}{det(A)}=k$
 
