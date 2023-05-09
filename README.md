@@ -98,7 +98,7 @@ Ahora bien, esta ecuacion proviene de la siguiente:
 
 * $∑_(n=i)^n = F_i =F_(n+2)-F_2$
 
-Tiene la forma que habiamos puesto antes en el caso de estar hablando de una succesion de fibonacci que empezara en el 1, sin embargo en nuestro caso, F2 es 10, por lo tanto el valor de la suma total será F23 para el caso de tamaño 30.
+Tiene la forma que habiamos puesto antes en el caso de estar hablando de una succesion de fibonacci que empezara en el 1, sin embargo en nuestro caso, F2 es 5, el valor inicial por lo tanto el valor de la suma total será F23 para el caso de tamaño 30.
 
 Otra optimizacion que hemos realizado es aprovechar los tiempos de espera entre cada operación para realizar otras operaciones
 
