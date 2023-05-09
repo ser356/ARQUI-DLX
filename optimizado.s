@@ -67,7 +67,6 @@ main:
     multf   f12,            f4,             f8
 
     sf      vector-116(r9), f0                      ; se han introducido aqui para aprovechar el tiempo de calculo de la multiplicacion
-    sf      vector-112(r9), f0
 
     subf    f13,            f10,            f12
 
@@ -75,6 +74,7 @@ main:
 
     divf    f8,             f3,             f13
 
+    sf      vector-112(r9), f0
 
     multf   f7,             f8,             f20
     sf      M,              f20
@@ -85,7 +85,6 @@ main:
     sf      detV,           f8
 
     addf    f17,            f14,            f11
-    sf      vector-80(r9),  f17
 
     multf   f16,            f8,             f4
     sf      V,              f7
@@ -107,13 +106,14 @@ main:
     sf      V+12,           f2
 
     sf      mediaV,         f29
+    seqi    r11,            r8,             10
+
     addf    f8,             f7,             f6
     addf    f4,             f15,            f17
     movf    f22,            f15
 
 ; salto condicional para valores de la secuencia hasta 10
 
-    seqi    r11,            r8,             10
     bnez    r11,            fin
 
 
@@ -124,6 +124,7 @@ main:
 
 ; Calculamos el resto de los valores de la secuencia
 
+    sf      vector-80(r9),  f17
 
 
 ; solo se calculan dos porque se han adelantado tres anteriormente
@@ -143,11 +144,12 @@ main:
     addf    f8,             f7,             f6
     sf      vector-72(r9),  f4
 
+    seqi    r11,            r8,             15
+
     movf    f22,            f8
     addf    f9,             f8,             f7
 
 ; salto condicional para valores de la secuencia hasta 15
-    seqi    r11,            r8,             15
     bnez    r11,            fin
 
 
@@ -168,10 +170,10 @@ main:
 
     movf    f22,            f13
     sf      vector-52(r9),  f9
+    seqi    r11,            r8,             20
 
     addf    f14,            f13,            f12
                                                     ; se pueden adelantar hasta 3 valores de la secuencia para que el calculo sea optimizado
-    seqi    r11,            r8,             20
     bnez    r11,            fin
 
 
@@ -194,9 +196,9 @@ main:
 
     movf    f22,            f18
     sf      vector-32(r9),  f14
+    seqi    r11,            r8,             25
 
     addf    f19,            f18,            f17
-    seqi    r11,            r8,             25
     bnez    r11,            fin
 
 
