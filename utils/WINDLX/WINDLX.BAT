@@ -1,1 +1,1 @@
-"C:\Users\sergi\OneDrive\Escritorio\WINDLX\otvdm-v0.8.1\OTVDMW.EXE" "C:\Users\sergi\OneDrive\Escritorio\WINDLX\WINDLX.EXE"
+".\otvdm-v0.8.1\OTVDMW.EXE" "WINDLX.EXE"
